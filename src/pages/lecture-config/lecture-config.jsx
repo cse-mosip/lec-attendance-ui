@@ -22,14 +22,13 @@ const LectureConfig = () => {
   ];
 
   const lecturers = [
-    { id: "1", name: "Dr. ABC Perera" },
-    { id: "2", name: "Dr. ABC Perera" },
-    { id: "3", name: "Prof. ABC Perera" },
+    { id: "1", name: "Mrs. Vishaka Nanayakkara" },
+    { id: "2", name: "Dr. Adeesha Wijayasiri" },
+    { id: "3", name: "Prof. Indika Perera" },
   ];
 
   const [intake, setIntake] = React.useState("");
   const [semester, setSemester] = React.useState("");
-  const [duration, setDuration] = React.useState("");
 
   const handleChangeIntake = (event) => {
     setIntake(event.target.value);
@@ -51,8 +50,7 @@ const LectureConfig = () => {
           <Card
             sx={{
               alignSelf: "center",
-              border: 1,
-              borderColor: "#4154F1",
+              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
               borderRadius: 1,
             }}
             variant={"outlined"}
@@ -67,7 +65,7 @@ const LectureConfig = () => {
                   textAlign: "center",
                 }}
               >
-                Config Lecture
+                Configure Lecture
               </Typography>
 
               <Grid container>
@@ -169,7 +167,7 @@ const LectureConfig = () => {
                 )}
               />
 
-              <Grid container sx={{ ml: 2}}>
+              <Grid container sx={{ ml: 2 }}>
                 <TextField
                   id="duration"
                   label="Duration (hrs)"
@@ -192,9 +190,10 @@ const LectureConfig = () => {
                   marginBottom: 2,
                   width: "auto",
                   backgroundColor: "#4154F1",
-                  ml: 2,
+                  ml: "auto",
+                  mr: "auto",
+                  display: "block",
                 }}
-                fullWidth
                 // onClick={}
               >
                 PROCEED
