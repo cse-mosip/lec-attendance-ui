@@ -141,8 +141,10 @@ function AttendanceSheet() {
 
     return (
         <Container>
-            <Typography variant='h3'>Attendance</Typography>
-            <div>
+            <Typography variant='h3' style={{paddingBottom:"10px"}}>Attendance</Typography>
+            <div style={{
+                paddingBottom:"10px"
+            }}>
                 <TextField
                     label="Module Code"
                     name="moduleCode"
@@ -158,6 +160,9 @@ function AttendanceSheet() {
                             </InputAdornment>
                         ),
                     }}
+                    style={{
+                        paddingRight:"10px"
+                    }}
                 />
                 <TextField
                     label="Module Name"
@@ -165,6 +170,9 @@ function AttendanceSheet() {
                     value={filters.moduleName}
                     onChange={handleFilterChange}
                     size='small'
+                    style={{
+                        paddingRight:"10px"
+                    }}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
