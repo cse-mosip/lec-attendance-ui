@@ -1,26 +1,31 @@
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Fingerprint from './assets/Fingerprint.png';
-
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
 export default function IdleDisplay(props) {
     return (
         <>
-            <Container maxWidth="xl">
-            <Grid container spacing={2}>
-                <Grid sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '75vh'}} item xs={8}>
-                    <Typography align="left" variant="h1">Scan your fingerprint to mark your attendance</Typography>
-                </Grid>
-                <Grid sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '75vh'}} item xs={4}>
-                    <img src={Fingerprint}/>
-                </Grid>
-            </Grid>
-            </Container>
-            <Container maxWidth="xl">
-                <Typography align="left" variant="h4">Module code: {props.moduleCode}</Typography>
-                <Typography align="left" variant="h4">Module Name: {props.moduleName}</Typography>
-                <Typography align="left" variant="h4">Lecturer Name: {props.lecturer}</Typography>
-            </Container>
+        <Grid container spacing={0} direction="column" alignItems="center" justify="center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+             <Grid item xs={3}>
+                <Card sx={{display: 'inline-block', boxShadow: 3, backgroundColor: "#" }}>
+                    <CardContent>
+                        <Container sx={{display: 'flex',  flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '20vh'}}>
+                            <Typography align="center" variant="h2">{props.moduleCode} | {props.moduleName}</Typography>
+                            <Typography align="center" variant="h2">{props.lecturer}</Typography>
+                        </Container>
+                        <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50vh'}}>
+                                <img src={Fingerprint}/>
+                        </Container>
+                        <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                            <Typography align="left" variant="h3" >Scan your fingerprint to mark your attendance</Typography> 
+                        </Container>
+                    </CardContent>
+                </Card>
+             </Grid>
+        </Grid>
         </>
     )
 }
+// 4154f1 blue
