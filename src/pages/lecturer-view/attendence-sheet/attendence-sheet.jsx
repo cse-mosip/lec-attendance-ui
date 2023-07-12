@@ -107,7 +107,6 @@ function AttendanceSheet() {
             "Attendance": "17/20"
         }
     ];
-
     const initialFilters = {
         moduleCode: '',
         moduleName: '',
@@ -137,14 +136,10 @@ function AttendanceSheet() {
         setFilters(initialFilters);
     };
 
-
-
     return (
         <Container>
-            <Typography variant='h3' style={{paddingBottom:"10px"}}>Attendance</Typography>
-            <div style={{
-                paddingBottom:"10px"
-            }}>
+            <Typography style={{paddingBottom:"10px"}} variant='h3'>Attendance</Typography>
+            <div style={{ marginBottom: '1rem' }}>
                 <TextField
                     label="Module Code"
                     name="moduleCode"
@@ -210,6 +205,7 @@ function AttendanceSheet() {
                                 key={index}
                                 component={Link}
                                 to={`/details/${entry["module code"]}`}
+                                style={{ textDecoration: 'none', cursor: 'pointer' }}
                             >
                                 <TableCell>{entry["module code"]}</TableCell>
                                 <TableCell>{entry["module name"]}</TableCell>
