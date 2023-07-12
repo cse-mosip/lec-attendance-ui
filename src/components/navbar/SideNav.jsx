@@ -21,7 +21,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PeopleIcon from "@mui/icons-material/People";
 import { Typography } from "@mui/material";
 
 const drawerWidth = 220;
@@ -232,7 +234,7 @@ export default function MiniDrawer() {
                     color: iconColor,
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary={text}
@@ -265,7 +267,11 @@ export default function MiniDrawer() {
                     color: iconColor,
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {text.toLowerCase() == "logout" ? (
+                    <LogoutIcon />
+                  ) : text.toLowerCase() === "dashboard" ? (
+                    <DashboardIcon />
+                  ) : null}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
