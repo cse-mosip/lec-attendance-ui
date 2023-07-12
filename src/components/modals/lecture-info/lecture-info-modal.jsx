@@ -6,6 +6,14 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { PieChart } from '@mui/x-charts/PieChart';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { TableVirtuoso } from 'react-virtuoso'
 
 const style = {
   modalBox: {
@@ -13,7 +21,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
+    width: 700,
     bgcolor: 'background.paper',
     border: '2px solid #0394fc',
     boxShadow: 24,
@@ -28,6 +36,13 @@ const style = {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: '20px'
+  },
+  attendanceSheetTitle: {
+    textAlign: 'center',
+    marginTop: '20px'
+  },
+  attendanceSheet: {
+    bgcolor: 'blue'
   }
 };
 
@@ -37,6 +52,73 @@ function LectureInfoModal(props) {
   const handleClose = () => setOpen(false);
   const presentStudent = props.presentStudents;
   const totalStudent = props.totalStudents;
+
+  const columns = [
+    {
+      width: 200,
+      label: 'Name',
+      dataKey: 'name',
+    },
+    {
+      width: 120,
+      label: 'Index number',
+      dataKey: 'id',
+      numeric: true,
+    },
+    {
+      width: 120,
+      label: 'Arrival time',
+      dataKey: 'arrivalTime',
+    },
+  ];
+
+  const VirtuosoTableComponents = {
+    Scroller: React.forwardRef((props, ref) => (
+      <TableContainer component={Paper} {...props} ref={ref} />
+    )),
+    Table: (props) => (
+      <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
+    ),
+    TableHead,
+    TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
+    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
+  };
+
+  function fixedHeaderContent() {
+    return (
+      <TableRow>
+        {columns.map((column) => (
+          <TableCell
+            key={column.dataKey}
+            variant="head"
+            align={column.numeric || false ? 'right' : 'left'}
+            style={{ width: column.width }}
+            sx={{
+              backgroundColor: 'background.paper',
+            }}
+          >
+            {column.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    );
+  }
+
+  function rowContent(_index, row) {
+    return (
+      <React.Fragment>
+        {columns.map((column) => (
+          <TableCell
+            key={column.dataKey}
+            align={column.numeric || false ? 'right' : 'left'}
+          >
+            {row[column.dataKey]}
+          </TableCell>
+        ))}
+      </React.Fragment>
+    );
+  }
+
   return (
     <div>
       <Button onClick={handleOpen}>Open modal</Button>
@@ -78,6 +160,21 @@ function LectureInfoModal(props) {
                     width={400}
                     height={200}
                 />
+            </Box>
+            <Box style={style.attendanceSheetTitle}>
+                <Typography variant="h6" component="h2" style={style.transitionModalDate}> 
+                    Attendance sheet
+                </Typography>
+                <Box style={style.attendanceSheet}>
+                    <Paper style={{ height: 300, width: '100%' }}>
+                        <TableVirtuoso
+                            data={props.presentStudents}
+                            components={VirtuosoTableComponents}
+                            fixedHeaderContent={fixedHeaderContent}
+                            itemContent={rowContent}
+                        />
+                    </Paper>
+                </Box>
             </Box>
           </Box>
         </Fade>
