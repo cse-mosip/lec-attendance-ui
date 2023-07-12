@@ -12,9 +12,8 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Snackbar,
 } from "@mui/material";
-
+import MessagePopup from "../../../components/modals/message-pop-up/Message_pop_up";
 const LectureConfig = () => {
   const modules = [
     { code: "CS4012", name: "Professional Practice" },
@@ -30,7 +29,9 @@ const LectureConfig = () => {
 
   const [intake, setIntake] = useState("");
   const [semester, setSemester] = useState("");
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupType, setPopupType] = useState("success");
 
   const handleChangeIntake = (event) => {
     setIntake(event.target.value);
@@ -42,14 +43,20 @@ const LectureConfig = () => {
 
   const handleProceed = () => {
     if (intake && semester) {
-      setShowSnackbar(true);
+      setPopupMessage("Lecture has been configured.");
+      setPopupType("success");
+      setShowPopup(true);
       setIntake("");
       setSemester("");
+    } else {
+      setPopupMessage("Please fill in all required fields.");
+      setPopupType("error");
+      setShowPopup(true);
     }
   };
 
-  const handleCloseSnackbar = () => {
-    setShowSnackbar(false);
+  const handleClosePopup = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -218,12 +225,13 @@ const LectureConfig = () => {
                 PROCEED
               </Button>
 
-              <Snackbar
-                open={showSnackbar}
-                autoHideDuration={3000}
-                onClose={handleCloseSnackbar}
-                message="Lecture has been configured."
-              />
+              {showPopup && (
+                <MessagePopup
+                  message={popupMessage}
+                  type={popupType}
+                  onClose={handleClosePopup}
+                />
+              )}
             </CardContent>
           </Card>
         </Grid>
