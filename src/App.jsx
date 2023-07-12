@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
 import Router from "./routes/Router";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Navbar />
         <Router />
       </div>
+      <Footer />
     </div>
   );
 }
