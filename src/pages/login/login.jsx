@@ -69,7 +69,7 @@ const Login = () => {
                     onChange={(e) => setUserType(e.target.value)}
                     sx={{
                       '& .MuiFormControlLabel-root': {
-                        border: '1px solid lightblue',
+                        border: '0px solid',
                         borderRadius: '4px',
                         padding: '10px 60px 10px 20px',
                         margin:'0px 50px 0px 0px'
