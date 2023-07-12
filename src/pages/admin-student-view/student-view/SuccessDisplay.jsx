@@ -5,6 +5,7 @@ import success from './assets/success.png';
 
 export default function SuccessDisplay(props) {
     return (
+        // Todo : this can be optimized using message-pop-up feature
         <>
             <Container sx={{display: 'flex',  flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'}} maxWidth="xl">
                 <Typography align="center" variant="h1">Attendance marked successfully</Typography>
