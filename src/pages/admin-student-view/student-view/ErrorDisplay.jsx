@@ -5,6 +5,7 @@ import error from './assets/error.png';
 
 export default function ErrorDisplay() {
     return (
+        //TODO: This can be optimezed using message-pop-up feature
         <>
             <Container sx={{display: 'flex',  flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'}} maxWidth="xl">
                 <Typography align="center" variant="h1">Unsuccessful attempt</Typography>
