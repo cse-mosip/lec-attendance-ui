@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -12,6 +12,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Snackbar,
 } from "@mui/material";
 
 const LectureConfig = () => {
@@ -27,8 +28,9 @@ const LectureConfig = () => {
     { id: "3", name: "Prof. Indika Perera" },
   ];
 
-  const [intake, setIntake] = React.useState("");
-  const [semester, setSemester] = React.useState("");
+  const [intake, setIntake] = useState("");
+  const [semester, setSemester] = useState("");
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
   const handleChangeIntake = (event) => {
     setIntake(event.target.value);
@@ -36,6 +38,18 @@ const LectureConfig = () => {
 
   const handleChangeSemester = (event) => {
     setSemester(event.target.value);
+  };
+
+  const handleProceed = () => {
+    if (intake && semester) {
+      setShowSnackbar(true);
+      setIntake("");
+      setSemester("");
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
   };
 
   return (
@@ -51,7 +65,7 @@ const LectureConfig = () => {
             sx={{
               alignSelf: "center",
               boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              borderRadius: 1,
+              borderRadius: 8,
             }}
             variant={"outlined"}
           >
@@ -80,6 +94,7 @@ const LectureConfig = () => {
                       value={intake}
                       label="Intake"
                       onChange={handleChangeIntake}
+                      required
                     >
                       <MenuItem value={19}>19</MenuItem>
                       <MenuItem value={20}>20</MenuItem>
@@ -99,6 +114,7 @@ const LectureConfig = () => {
                       value={semester}
                       label="Semester"
                       onChange={handleChangeSemester}
+                      required
                     >
                       <MenuItem value={1}>1</MenuItem>
                       <MenuItem value={2}>2</MenuItem>
@@ -135,6 +151,7 @@ const LectureConfig = () => {
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "new-password", // disable autocomplete and autofill
+                      required: true,
                     }}
                   />
                 )}
@@ -162,6 +179,7 @@ const LectureConfig = () => {
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "new-password", // disable autocomplete and autofill
+                      required: true,
                     }}
                   />
                 )}
@@ -179,6 +197,7 @@ const LectureConfig = () => {
                     inputProps: {
                       min: 0, // Set the minimum value to 0
                     },
+                    required: true,
                   }}
                 />
               </Grid>
@@ -194,10 +213,17 @@ const LectureConfig = () => {
                   mr: "auto",
                   display: "block",
                 }}
-                // onClick={}
+                onClick={handleProceed}
               >
                 PROCEED
               </Button>
+
+              <Snackbar
+                open={showSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+                message="Lecture has been configured."
+              />
             </CardContent>
           </Card>
         </Grid>
