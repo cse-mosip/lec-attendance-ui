@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: lec_attendane_ui_c
+    image: lec_attendane_ui_i
+    build:
+      context: .
+    ports:
+      - "8080:80"
