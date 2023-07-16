@@ -45,6 +45,7 @@ const LectureConfig = () => {
   const [moduleError, setModuleError] = useState(false);
   const [startTimeError, setStartTimeError] = useState(false);
   const [endTimeError, setEndTimeError] = useState(false);
+  const [validationError, setValidationError] = useState("");
 
   const handleChangeIntake = (event) => {
     setIntake(event.target.value);
@@ -61,6 +62,7 @@ const LectureConfig = () => {
     setModuleError(false);
     setStartTimeError(false);
     setEndTimeError(false);
+    setValidationError("");
 
     if (intake == "") {
       setIntakeError(true);
@@ -79,6 +81,10 @@ const LectureConfig = () => {
     }
     if (endTime == "") {
       setEndTimeError(true);
+    }
+
+    if (startTime.getTime() >= endTime.getTime()) {
+      setValidationError("Start time should be before end time");
     }
   };
 
@@ -118,7 +124,7 @@ const LectureConfig = () => {
 
               <Grid container>
                 <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
-                  <FormControl fullWidth>
+                  <FormControl sx={{width: "80%"}}>
                     <InputLabel id="demo-simple-select-label">
                       Intake
                     </InputLabel>
@@ -139,7 +145,7 @@ const LectureConfig = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
-                  <FormControl fullWidth>
+                  <FormControl sx={{width: "80%"}}>
                     <InputLabel id="demo-simple-select-label">
                       Semester
                     </InputLabel>
@@ -260,6 +266,12 @@ const LectureConfig = () => {
                   errorMessage="Please fill out required fields"
                 />
               ) : null}
+              {validationError && 
+                <ErrorSnackbar
+                  error={true}
+                  errorMessage={validationError}
+                />
+              }
 
               <Snackbar
                 open={showSnackbar}
