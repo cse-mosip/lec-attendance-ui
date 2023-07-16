@@ -11,11 +11,11 @@ export default function IdleDisplay(props) {
              <Grid item xs={3}>
                 <Card sx={{display: 'inline-block', boxShadow: 3, backgroundColor: "#" }}>
                     <CardContent>
-                        <Container sx={{display: 'flex',  flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '20vh'}}>
+                        <Container sx={{display: 'flex',  flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 'auto'}}>
                             <Typography align="center" variant="h2">{props.moduleCode} | {props.moduleName}</Typography>
                             <Typography align="center" variant="h2">{props.lecturer}</Typography>
                         </Container>
-                        <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50vh'}}>
+                        <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto'}}>
                                 <img src={Fingerprint}/>
                         </Container>
                         <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

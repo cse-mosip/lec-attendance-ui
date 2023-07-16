@@ -30,6 +30,7 @@ import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Dashboard from "../../pages/lecturer-view/dashboard/Dashboard";
+import { auto, bottom } from "@popperjs/core";
 
 const drawerWidth = 220;
 const iconColor = "#012970";
@@ -61,6 +62,8 @@ const handleLogout = () => {
         title: 'Success',
         text: 'Logout Successful',
       })
+    } else{
+      return;
     }
     setTimeout(() => {
       window.location.href = "/login";
@@ -257,6 +260,7 @@ export default function MiniDrawer() {
           {["Attendance Sheet"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
+              onClick={() => window.location.href = "/attendence-sheet"}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -272,8 +276,7 @@ export default function MiniDrawer() {
                   }}
                 >
                   {text.toLowerCase() == "attendance sheet" ? (
-                  <PeopleIcon
-                  onClick={() => window.location.href = "/attendence-sheet"}/>) : null}
+                  <PeopleIcon/>) : null}
                 </ListItemIcon>
                 <ListItemText
                   primary={text}
@@ -284,12 +287,13 @@ export default function MiniDrawer() {
           ))}
         </List>
         <Divider />
-        <List>
+        <List >
           <Typography sx={{ color: "#899BBD", ml: 1 }}>Analyze</Typography>
-          {["Dashboard", "Logout"].map((text, index) => (
-            (text.toLowerCase() == "logout" && !isLoggedIn) ? null : (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          {["Dashboard"].map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }} >
                 <ListItemButton
+                
+                onClick={() => window.location.href = "/"}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
@@ -297,6 +301,8 @@ export default function MiniDrawer() {
                     color: iconColor,
                     //   backgroundColor: "#F0F4FB",
                   }}
+
+                  
                 >
                   <ListItemIcon
                     sx={{
@@ -306,13 +312,8 @@ export default function MiniDrawer() {
                       color: iconColor,
                     }}
                   >
-                    {text.toLowerCase() == "logout" ? (
-                      <LogoutIcon
-                        onClick={handleLogout}
-                      />
-                    ) : text.toLowerCase() === "dashboard" ? (
-                      <DashboardIcon 
-                      onClick={() => window.location.href = "/"}/>
+                    {text.toLowerCase() === "dashboard" ? (
+                      <DashboardIcon />
                     ) : null}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
@@ -320,9 +321,54 @@ export default function MiniDrawer() {
               </ListItem>
             )
 
-          ))}
+          )}
+        </List>
+
+        <List style={
+                    {
+                      height: "100%"
+                    }
+                  }>
+          {["Logout"].map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" , float: "bottom", position: "absolute", bottom: "0"}} >
+                {(text.toLowerCase() == "logout" && !isLoggedIn) ? null :
+                <ListItemButton
+                
+                  onClick={handleLogout}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                    color: iconColor,
+                    //   backgroundColor: "#F0F4FB",
+                  }}
+
+                  
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                      color: iconColor,
+                    }}
+                  >
+                    {text.toLowerCase() === "logout" ? (
+                      <LogoutIcon 
+                      />
+                    ) : null}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+                }
+              </ListItem>
+            )
+
+          )}
         </List>
       </Drawer>
+
+      
     </Box>
   );
 }

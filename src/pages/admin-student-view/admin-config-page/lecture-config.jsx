@@ -167,7 +167,6 @@ const LectureConfig = () => {
 
   return (
     <>
-    <SideNav/>
     <div className="lec-config">
       <Grid
         container

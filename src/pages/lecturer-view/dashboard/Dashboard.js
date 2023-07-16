@@ -7,13 +7,13 @@ const Dashboard = () => {
   const [totParticipant, setTotParticipant] = useState(0);
 
   // to load all the data before render
-  useEffect(() => {
-    getTotParticipant
-  }, []);
+  // useEffect(() => {
+  //   getTotParticipant()
+  // }, []);
 
-  useEffect(() => {
-    getAttendance
-  }, []);
+  // useEffect(() => {
+  //   getAttendance()
+  // }, []);
 
 
   const getTotParticipant = (event) => {
