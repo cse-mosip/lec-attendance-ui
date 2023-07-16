@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -13,41 +13,101 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
+import axios from "axios";
 import MessagePopup from "../../../components/modals/message-pop-up/Message_pop_up";
+
 const LectureConfig = () => {
-  const modules = [
-    { code: "CS4012", name: "Professional Practice" },
-    { code: "CS3962", name: "Research and Report Writing" },
-    { code: "CS4242", name: "Human Computer Interaction" },
-  ];
-
-  const lecturers = [
-    { id: "1", name: "Mrs. Vishaka Nanayakkara" },
-    { id: "2", name: "Dr. Adeesha Wijayasiri" },
-    { id: "3", name: "Prof. Indika Perera" },
-  ];
-
   const [intake, setIntake] = useState("");
   const [semester, setSemester] = useState("");
+  const [moduleCode, setModuleCode] = useState("");
+  const [moduleName, setModuleName] = useState("");
+  const [lecturer, setLecturer] = useState("");
+  const [duration, setDuration] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("success");
+  const [modules, setModules] = useState([]);
+  const [lecturers, setLecturers] = useState([]);
 
   const handleChangeIntake = (event) => {
-    setIntake(event.target.value);
+    const selectedIntake = event.target.value;
+    setIntake(selectedIntake);
+
+    // Send request to backend
+    axios
+      .get("your_backend_url/module-details")
+      .then((response) => {
+        // Handle the response from the backend
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error occurred while fetching data");
+        }
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          // Update the modules and lecturers state with the response data
+          const modulesData = data.data.map((module) => ({
+            code: module.module_code,
+            name: module.module_name,
+          }));
+          setModules(modulesData);
+          setLecturers(module.data[0].lecturer);
+        } else {
+          console.error(data.reason);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const handleChangeSemester = (event) => {
-    setSemester(event.target.value);
+    const selectedSemester = event.target.value;
+    setSemester(selectedSemester);
+  };
+
+  const handleChangeModule = (event, value) => {
+    if (value) {
+      setModuleCode(value.code);
+      setModuleName(value.name);
+    } else {
+      setModuleCode("");
+      setModuleName("");
+    }
+  };
+
+  const handleChangeLecturer = (event, value) => {
+    if (value) {
+      setLecturer(value.name);
+    } else {
+      setLecturer("");
+    }
+  };
+
+  const handleChangeDuration = (event) => {
+    const selectedDuration = event.target.value;
+    setDuration(selectedDuration);
   };
 
   const handleProceed = () => {
-    if (intake && semester) {
+    if (
+      intake &&
+      semester &&
+      moduleCode &&
+      moduleName &&
+      lecturer &&
+      duration
+    ) {
       setPopupMessage("Lecture has been configured.");
       setPopupType("success");
       setShowPopup(true);
       setIntake("");
       setSemester("");
+      setModuleCode("");
+      setModuleName("");
+      setLecturer("");
+      setDuration("");
     } else {
       setPopupMessage("Please fill in all required fields.");
       setPopupType("error");
@@ -160,6 +220,8 @@ const LectureConfig = () => {
                       autoComplete: "new-password", // disable autocomplete and autofill
                       required: true,
                     }}
+                    value={moduleName}
+                    onChange={handleChangeModule}
                   />
                 )}
               />
@@ -188,6 +250,8 @@ const LectureConfig = () => {
                       autoComplete: "new-password", // disable autocomplete and autofill
                       required: true,
                     }}
+                    value={lecturer}
+                    onChange={handleChangeLecturer}
                   />
                 )}
               />
@@ -204,8 +268,10 @@ const LectureConfig = () => {
                     inputProps: {
                       min: 0, // Set the minimum value to 0
                     },
-                    required: true,
                   }}
+                  required
+                  value={duration}
+                  onChange={handleChangeDuration}
                 />
               </Grid>
 
