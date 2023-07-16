@@ -12,7 +12,7 @@ function Router() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-
+          <Route path="/lecture-config" element = {<LectureConfig/>} />
           {/* Invalid && prohibited routes  */}
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
