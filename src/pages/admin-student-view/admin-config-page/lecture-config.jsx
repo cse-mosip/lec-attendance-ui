@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -13,7 +13,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
-
+import MessagePopup from "../../../components/modals/message-pop-up/Message_pop_up";
 const LectureConfig = () => {
   const modules = [
     { code: "CS4012", name: "Professional Practice" },
@@ -27,8 +27,11 @@ const LectureConfig = () => {
     { id: "3", name: "Prof. Indika Perera" },
   ];
 
-  const [intake, setIntake] = React.useState("");
-  const [semester, setSemester] = React.useState("");
+  const [intake, setIntake] = useState("");
+  const [semester, setSemester] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupType, setPopupType] = useState("success");
 
   const handleChangeIntake = (event) => {
     setIntake(event.target.value);
@@ -36,6 +39,24 @@ const LectureConfig = () => {
 
   const handleChangeSemester = (event) => {
     setSemester(event.target.value);
+  };
+
+  const handleProceed = () => {
+    if (intake && semester) {
+      setPopupMessage("Lecture has been configured.");
+      setPopupType("success");
+      setShowPopup(true);
+      setIntake("");
+      setSemester("");
+    } else {
+      setPopupMessage("Please fill in all required fields.");
+      setPopupType("error");
+      setShowPopup(true);
+    }
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -51,7 +72,7 @@ const LectureConfig = () => {
             sx={{
               alignSelf: "center",
               boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              borderRadius: 1,
+              borderRadius: 8,
             }}
             variant={"outlined"}
           >
@@ -80,6 +101,7 @@ const LectureConfig = () => {
                       value={intake}
                       label="Intake"
                       onChange={handleChangeIntake}
+                      required
                     >
                       <MenuItem value={19}>19</MenuItem>
                       <MenuItem value={20}>20</MenuItem>
@@ -99,6 +121,7 @@ const LectureConfig = () => {
                       value={semester}
                       label="Semester"
                       onChange={handleChangeSemester}
+                      required
                     >
                       <MenuItem value={1}>1</MenuItem>
                       <MenuItem value={2}>2</MenuItem>
@@ -135,6 +158,7 @@ const LectureConfig = () => {
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "new-password", // disable autocomplete and autofill
+                      required: true,
                     }}
                   />
                 )}
@@ -162,6 +186,7 @@ const LectureConfig = () => {
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "new-password", // disable autocomplete and autofill
+                      required: true,
                     }}
                   />
                 )}
@@ -179,6 +204,7 @@ const LectureConfig = () => {
                     inputProps: {
                       min: 0, // Set the minimum value to 0
                     },
+                    required: true,
                   }}
                 />
               </Grid>
@@ -194,10 +220,18 @@ const LectureConfig = () => {
                   mr: "auto",
                   display: "block",
                 }}
-                // onClick={}
+                onClick={handleProceed}
               >
                 PROCEED
               </Button>
+
+              {showPopup && (
+                <MessagePopup
+                  message={popupMessage}
+                  type={popupType}
+                  onClose={handleClosePopup}
+                />
+              )}
             </CardContent>
           </Card>
         </Grid>
