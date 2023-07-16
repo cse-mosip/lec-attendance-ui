@@ -14,6 +14,8 @@ import {
   MenuItem,
   Snackbar,
 } from "@mui/material";
+import ErrorSnackbar from "./error-snackbar";
+import BasicTimeField from "./basic-time-field";
 
 const LectureConfig = () => {
   const modules = [
@@ -30,7 +32,19 @@ const LectureConfig = () => {
 
   const [intake, setIntake] = useState("");
   const [semester, setSemester] = useState("");
+  const [lecturer, setLecturer] = useState("");
+  const [module, setModule] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
   const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const [intakeError, setIntakeError] = useState(false);
+  const [semesterError, setSemesterError] = useState(false);
+  const [lecturerError, setLecturerError] = useState(false);
+  const [moduleError, setModuleError] = useState(false);
+  const [startTimeError, setStartTimeError] = useState(false);
+  const [endTimeError, setEndTimeError] = useState(false);
 
   const handleChangeIntake = (event) => {
     setIntake(event.target.value);
@@ -41,10 +55,30 @@ const LectureConfig = () => {
   };
 
   const handleProceed = () => {
-    if (intake && semester) {
-      setShowSnackbar(true);
-      setIntake("");
-      setSemester("");
+    setIntakeError(false);
+    setSemesterError(false);
+    setLecturerError(false);
+    setModuleError(false);
+    setStartTimeError(false);
+    setEndTimeError(false);
+
+    if (intake == "") {
+      setIntakeError(true);
+    }
+    if (semester == "") {
+      setSemesterError(true);
+    }
+    if (lecturer == "") {
+      setLecturerError(true);
+    }
+    if (module == "") {
+      setModuleError(true);
+    }
+    if (startTime == "") {
+      setStartTimeError(true);
+    }
+    if (endTime == "") {
+      setEndTimeError(true);
     }
   };
 
@@ -89,6 +123,7 @@ const LectureConfig = () => {
                       Intake
                     </InputLabel>
                     <Select
+                      error={intakeError}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={intake}
@@ -109,6 +144,7 @@ const LectureConfig = () => {
                       Semester
                     </InputLabel>
                     <Select
+                      error={semesterError}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={semester}
@@ -141,11 +177,12 @@ const LectureConfig = () => {
                     sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                     {...props}
                   >
-                    {option.code} - {option.name}
+                    {option.code}
                   </Box>
                 )}
                 renderInput={(params) => (
                   <TextField
+                    error={moduleError}
                     {...params}
                     label="Module Code & Module Name"
                     inputProps={{
@@ -155,10 +192,13 @@ const LectureConfig = () => {
                     }}
                   />
                 )}
+                onChange={(e, value) => {
+                  setModule(value.code + " - " + value.name);
+                }}
               />
 
               <Autocomplete
-                id="lecturer-select-demo"
+                id="lecturer-select-demo2"
                 sx={{ ml: 2, mb: 2 }}
                 options={lecturers}
                 autoHighlight
@@ -174,6 +214,7 @@ const LectureConfig = () => {
                 )}
                 renderInput={(params) => (
                   <TextField
+                    error={lecturerError}
                     {...params}
                     label="Lecturer"
                     inputProps={{
@@ -183,23 +224,18 @@ const LectureConfig = () => {
                     }}
                   />
                 )}
+                onChange={(e, value) => {
+                  setLecturer(value.name);
+                }}
               />
 
-              <Grid container sx={{ ml: 2 }}>
-                <TextField
-                  id="duration"
-                  label="Duration (hrs)"
-                  type="number"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    inputProps: {
-                      min: 0, // Set the minimum value to 0
-                    },
-                    required: true,
-                  }}
-                />
+              <Grid container>
+                <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
+              <BasicTimeField label={"Start Time"} setTime={setStartTime} error={startTimeError}/>
+                </Grid>
+                <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
+              <BasicTimeField label={"End Time"} setTime={setEndTime} error={endTimeError}/>
+                </Grid>
               </Grid>
 
               <Button
@@ -218,11 +254,18 @@ const LectureConfig = () => {
                 PROCEED
               </Button>
 
+              {intakeError || semesterError || moduleError || lecturerError ? (
+                <ErrorSnackbar
+                  error={true}
+                  errorMessage="Please fill out required fields"
+                />
+              ) : null}
+
               <Snackbar
                 open={showSnackbar}
                 autoHideDuration={3000}
                 onClose={handleCloseSnackbar}
-                message="Lecture has been configured."
+                message="Lecture has been configured successfully."
               />
             </CardContent>
           </Card>
