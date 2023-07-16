@@ -8,6 +8,7 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import SideNav from "../../../components/navbar/SideNav"
 import LectureInfoModal from '../../../components/modals/lecture-info/lecture-info-modal';
 import dummyData from './attendance_sheet_data.json';
+import { borderRadius } from '@mui/system';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -173,10 +174,18 @@ function AttendanceSheet() {
     };
 
     const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedTotStudent, setSelectedTotStudent] = useState(0);
 
     const [show, setShow] = useState(false);
-    const showModal = () => {
+    const showModal = (entry) => {
         setShow(true);
+
+        let totalStudents = entry.Attendance.split("/")[1];
+
+        setSelectedTotStudent(totalStudents);
+
+        // TODO: need to add a request handler to get all the lectres conducted by this lecturer
+        
     }
 
     // const handleRowClick = (index) => {
@@ -189,7 +198,8 @@ function AttendanceSheet() {
         <SideNav/>
         <Container>
             <Typography style={{ paddingBottom: "10px" }} variant='h3'>Attendance</Typography>
-            <div style={{ marginBottom: '1rem', position: 'fixed', top: '0', paddingTop: '5rem', paddingBottom: '0.25rem', overflow: 'hidden', backgroundColor: '#ffffff', width: '100%' }}>
+
+            <div style={{ marginBottom: '1rem', position: 'fixed', top: '0', left: "0", paddingTop: '5rem', paddingBottom: '0.25rem', overflow: 'hidden', backgroundColor: '#ffffffee', width: "100%" }}>
                 <div style={{ display: 'flex', justifyContent: 'center', margin: "0 10% 0 10%" }}>
                     <TextField
                         label="Module Code"
@@ -208,7 +218,7 @@ function AttendanceSheet() {
                         }}
                         style={{
                             margin: "0 1rem 0 1rem",
-                            border: "1px solid #ccc",
+                            border: "0px solid #ccc",
                             borderRadius: 4,
                         }}
                     />
@@ -220,7 +230,7 @@ function AttendanceSheet() {
                         size='small'
                         style={{
                             margin: "0 1rem 0 1rem",
-                            border: "1px solid #ccc",
+                            border: "0px solid #ccc",
                             borderRadius: 4,
                         }}
                         InputProps={{
@@ -241,18 +251,28 @@ function AttendanceSheet() {
                         size='small'
                         style={{
                             margin: "0 1rem 0 1rem",
-                            border: "1px solid #ccc",
+                            border: "0px solid #ccc",
                             borderRadius: 4,
                         }}
                     />
                 </div>
             </div>
-            <TableContainer component={Paper}>
+            <div style={{width: '100%'}}>
+
+            
+            <TableContainer component={Paper} style={
+                {
+                    borderRadius: "10px",
+                    marginTop: '4.5rem',
+                    boxShadow: '-0.5px 0.5px 10px'
+            
+            }
+            }>
                 <Table style={{
-                    marginTop: '3.5rem', width: "100%",
+                    width: "100%"
                 }}>
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                             <StyledTableCell >Module Code</StyledTableCell >
                             <StyledTableCell >Module Name</StyledTableCell >
                             <StyledTableCell >Hall</StyledTableCell >
@@ -269,7 +289,7 @@ function AttendanceSheet() {
                                 component={Link}
                                 to={`/details/${entry["module code"]}`}
                                 style={{ textDecoration: 'none', cursor: 'pointer' }}
-                                onClick={showModal}
+                                onClick={() => showModal(entry)}
                             >
                                 <StyledTableCell >{entry["module code"]}</StyledTableCell >
                                 <StyledTableCell >{entry["module name"]}</StyledTableCell >
@@ -284,8 +304,11 @@ function AttendanceSheet() {
                 </Table>
             </TableContainer>
 
+
+            </div>
+            
         </Container>
-        <LectureInfoModal presentStudents={dummyData} totalStudents={50} show={show} setShow={(bool) => setShow(bool)}/>
+        <LectureInfoModal presentStudents={dummyData} totalStudents={selectedTotStudent} show={show} setShow={(bool) => setShow(bool)}/>
         </>
     );
 }
