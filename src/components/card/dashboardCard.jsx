@@ -16,6 +16,8 @@ export default function PricingCards() {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))',
                 gap: 2,
+                p: 5,
+                pb: 0
             }}
         >
             <Card size="md" variant="outlined">
