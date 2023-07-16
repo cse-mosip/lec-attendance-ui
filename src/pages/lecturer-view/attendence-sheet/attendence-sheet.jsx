@@ -1,9 +1,31 @@
 import React, { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Link, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Table, TableContainer, TableHead, TableBody, TableRow, Paper, Link, TextField, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 function AttendanceSheet() {
     const data = [
@@ -138,83 +160,96 @@ function AttendanceSheet() {
 
     return (
         <Container>
-            <Typography style={{paddingBottom:"10px"}} variant='h3'>Attendance</Typography>
-            <div style={{ marginBottom: '1rem' }}>
-                <TextField
-                    label="Module Code"
-                    name="moduleCode"
-                    value={filters.moduleCode}
-                    onChange={handleFilterChange}
-                    size='small'
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton onClick={clearFilters}>
-                                    <SearchIcon />
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                    style={{
-                        paddingRight:"10px"
-                    }}
-                />
-                <TextField
-                    label="Module Name"
-                    name="moduleName"
-                    value={filters.moduleName}
-                    onChange={handleFilterChange}
-                    size='small'
-                    style={{
-                        paddingRight:"10px"
-                    }}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton onClick={clearFilters}>
-                                    <SearchIcon />
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-                <TextField
-                    label="Date"
-                    name="date"
-                    value={filters.date}
-                    onChange={handleFilterChange}
-                    size='small'
-                />
+            <Typography style={{ paddingBottom: "10px" }} variant='h3'>Attendance</Typography>
+            <div style={{ marginBottom: '1rem', position: 'fixed', top: '0', paddingTop: '5rem', paddingBottom: '0.25rem', overflow: 'hidden', backgroundColor: '#ffffff', width: '100%' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', margin: "0 10% 0 10%" }}>
+                    <TextField
+                        label="Module Code"
+                        name="moduleCode"
+                        value={filters.moduleCode}
+                        onChange={handleFilterChange}
+                        size='small'
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={clearFilters}>
+                                        <SearchIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                        style={{
+                            margin: "0 1rem 0 1rem",
+                            border: "1px solid #ccc",
+                            borderRadius: 4,
+                        }}
+                    />
+                    <TextField
+                        label="Module Name"
+                        name="moduleName"
+                        value={filters.moduleName}
+                        onChange={handleFilterChange}
+                        size='small'
+                        style={{
+                            margin: "0 1rem 0 1rem",
+                            border: "1px solid #ccc",
+                            borderRadius: 4,
+                        }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={clearFilters}>
+                                        <SearchIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                    <TextField
+                        label="Date"
+                        name="date"
+                        value={filters.date}
+                        onChange={handleFilterChange}
+                        size='small'
+                        style={{
+                            margin: "0 1rem 0 1rem",
+                            border: "1px solid #ccc",
+                            borderRadius: 4,
+                        }}
+                    />
+                </div>
             </div>
             <TableContainer component={Paper}>
-                <Table>
+                <Table style={{
+                    marginTop: '3.5rem', width: "100%",
+                }}>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Module Code</TableCell>
-                            <TableCell>Module Name</TableCell>
-                            <TableCell>Hall</TableCell>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Start Time</TableCell>
-                            <TableCell>End Time</TableCell>
-                            <TableCell>Attendance</TableCell>
+                            <StyledTableCell >Module Code</StyledTableCell >
+                            <StyledTableCell >Module Name</StyledTableCell >
+                            <StyledTableCell >Hall</StyledTableCell >
+                            <StyledTableCell >Date</StyledTableCell >
+                            <StyledTableCell >Start Time</StyledTableCell >
+                            <StyledTableCell >End Time</StyledTableCell >
+                            <StyledTableCell >Attendance</StyledTableCell >
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredData.map((entry, index) => (
-                            <TableRow
+                            <StyledTableRow
                                 key={index}
                                 component={Link}
                                 to={`/details/${entry["module code"]}`}
                                 style={{ textDecoration: 'none', cursor: 'pointer' }}
                             >
-                                <TableCell>{entry["module code"]}</TableCell>
-                                <TableCell>{entry["module name"]}</TableCell>
-                                <TableCell>{entry["hall"]}</TableCell>
-                                <TableCell>{entry["date"]}</TableCell>
-                                <TableCell>{entry["start-time"]}</TableCell>
-                                <TableCell>{entry["end-time"]}</TableCell>
-                                <TableCell>{entry["Attendance"]}</TableCell>
-                            </TableRow>
+                                <StyledTableCell >{entry["module code"]}</StyledTableCell >
+                                <StyledTableCell >{entry["module name"]}</StyledTableCell >
+                                <StyledTableCell >{entry["hall"]}</StyledTableCell >
+                                <StyledTableCell >{entry["date"]}</StyledTableCell >
+                                <StyledTableCell >{entry["start-time"]}</StyledTableCell >
+                                <StyledTableCell >{entry["end-time"]}</StyledTableCell >
+                                <StyledTableCell >{entry["Attendance"]}</StyledTableCell >
+                            </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
