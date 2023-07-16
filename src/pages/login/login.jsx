@@ -53,6 +53,7 @@ const Login = () => {
                 alignItems: 'left',
                 gap: '20px',
                 padding: '40px', // Add padding here
+                height: '450px'
               }}
             >
               <Typography variant="h4">Sign In</Typography>
