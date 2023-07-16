@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import { Table, TableContainer, TableHead, TableBody, TableRow, Paper, Link, TextField, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 
+import LectureInfoModal from '../../../components/modals/lecture-info/lecture-info-modal';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -30,6 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function AttendanceSheet() {
     const data = [
         {
+            "lec id": 1,
             "module code": "CS4545",
             "module name": "Data Visualization",
             "hall": "Level 1 Lab",
@@ -39,6 +42,7 @@ function AttendanceSheet() {
             "Attendance": "12/16"
         },
         {
+            "lec id": 2,
             "module code": "CS1234",
             "module name": "Database Systems",
             "hall": "Lecture Hall 1",
@@ -48,6 +52,7 @@ function AttendanceSheet() {
             "Attendance": "100/128"
         },
         {
+            "lec id": 3,
             "module code": "CS5678",
             "module name": "Machine Learning",
             "hall": "Insight Lab",
@@ -57,6 +62,7 @@ function AttendanceSheet() {
             "Attendance": "20/22"
         },
         {
+            "lec id": 4,
             "module code": "CS9999",
             "module name": "Artificial Intelligence",
             "hall": "AI Lab",
@@ -66,6 +72,7 @@ function AttendanceSheet() {
             "Attendance": "18/20"
         },
         {
+            "lec id": 5,
             "module code": "CS2222",
             "module name": "Computer Networks",
             "hall": "Networking Lab",
@@ -75,6 +82,7 @@ function AttendanceSheet() {
             "Attendance": "25/30"
         },
         {
+            "lec id": 6,
             "module code": "CS3333",
             "module name": "Software Engineering",
             "hall": "Software Lab",
@@ -84,6 +92,7 @@ function AttendanceSheet() {
             "Attendance": "22/25"
         },
         {
+            "lec id": 7,
             "module code": "CS4444",
             "module name": "Operating Systems",
             "hall": "OS Lab",
@@ -93,6 +102,7 @@ function AttendanceSheet() {
             "Attendance": "15/18"
         },
         {
+            "lec id": 8,
             "module code": "CS5555",
             "module name": "Data Structures",
             "hall": "DS Lab",
@@ -102,6 +112,7 @@ function AttendanceSheet() {
             "Attendance": "19/20"
         },
         {
+            "lec id": 9,
             "module code": "CS6666",
             "module name": "Algorithms",
             "hall": "Algo Lab",
@@ -111,6 +122,7 @@ function AttendanceSheet() {
             "Attendance": "15/16"
         },
         {
+            "lec id": 10,
             "module code": "CS7777",
             "module name": "Web Development",
             "hall": "Web Lab",
@@ -120,6 +132,7 @@ function AttendanceSheet() {
             "Attendance": "28/30"
         },
         {
+            "lec id": 11,
             "module code": "CS8888",
             "module name": "Computer Graphics",
             "hall": "Graphics Lab",
@@ -157,6 +170,16 @@ function AttendanceSheet() {
     const clearFilters = () => {
         setFilters(initialFilters);
     };
+
+    const [selectedRow, setSelectedRow] = useState(null);
+
+
+    const handleRowClick = (index) => {
+        setSelectedRow(index);
+    };
+
+
+
 
     return (
         <Container>
@@ -237,10 +260,11 @@ function AttendanceSheet() {
                     <TableBody>
                         {filteredData.map((entry, index) => (
                             <StyledTableRow
-                                key={index}
+                                key={entry["lec id"]}
                                 component={Link}
                                 to={`/details/${entry["module code"]}`}
                                 style={{ textDecoration: 'none', cursor: 'pointer' }}
+                                onClick={() => handleRowClick(index)}
                             >
                                 <StyledTableCell >{entry["module code"]}</StyledTableCell >
                                 <StyledTableCell >{entry["module name"]}</StyledTableCell >
@@ -254,6 +278,7 @@ function AttendanceSheet() {
                     </TableBody>
                 </Table>
             </TableContainer>
+
         </Container>
     );
 }
