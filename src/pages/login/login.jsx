@@ -20,7 +20,7 @@ const Login = () => {
       <AppBar position="static" sx={{ backgroundColor: 'white' }}>
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1, color:"#012970", marginLeft: '10px', fontWeight: 'bold' }}>
-            Attendify
+            MOSIP
           </Typography>
         </Toolbar>
       </AppBar>
@@ -33,10 +33,6 @@ const Login = () => {
             <Container style={{ width: '80%', padding: '20px' }}>
               <Typography variant="h2" align="center">
                 Student Attendance Management System
-              </Typography>
-              <br />
-              <Typography variant="h3" align="center"  sx={{color:"#3C4EF1"}}>
-                Lecturer's Platform
               </Typography>
               <br />
               <Typography variant="span" align="left" sx={{color:"#757F8E"}}>
@@ -76,7 +72,7 @@ const Login = () => {
                       },
                     }}
                   >
-                    <FormControlLabel value="student" control={<Radio />} label="Student" />
+                    <FormControlLabel value="admin" control={<Radio />} label="Admin" />
                     <FormControlLabel value="teacher" control={<Radio />} label="Teacher" />
                   </RadioGroup>
                 </Box>
