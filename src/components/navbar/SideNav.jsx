@@ -181,7 +181,7 @@ export default function MiniDrawer() {
             <MenuIcon sx={{ color: iconColor }} />
           </IconButton>
           <Typography variant="h6" noWrap component="div" color={iconColor}>
-            Attendance
+            Student Attendance Management System
           </Typography>
         </Toolbar>
         <Box>
