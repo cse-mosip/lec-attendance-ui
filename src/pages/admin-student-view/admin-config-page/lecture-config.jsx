@@ -12,7 +12,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Snackbar
+  Snackbar,
 } from "@mui/material";
 import axios from "axios";
 import ErrorSnackbar from "./error-snackbar";
@@ -76,27 +76,38 @@ const LectureConfig = () => {
     setEndTimeError(false);
     setValidationError("");
 
-    if (intake == "") {
-      setIntakeError(true);
-    }
-    if (semester == "") {
-      setSemesterError(true);
-    }
-    if (lecturer == "") {
-      setLecturerError(true);
-    }
-    if (moduleName == "") {
-      setModuleError(true);
-    }
-    if (startTime == "") {
-      setStartTimeError(true);
-    }
-    if (endTime == "") {
-      setEndTimeError(true);
-    }
-
-    if (startTime.getTime() >= endTime.getTime()) {
-      setValidationError("Start time should be before end time");
+    if (
+      !intake ||
+      !semester ||
+      !lecturer ||
+      !moduleName ||
+      !startTime ||
+      !endTime
+    ) {
+      if (intake == "") {
+        setIntakeError(true);
+      }
+      if (semester == "") {
+        setSemesterError(true);
+      }
+      if (lecturer == "") {
+        setLecturerError(true);
+      }
+      if (moduleName == "") {
+        setModuleError(true);
+      }
+      if (startTime == "") {
+        setStartTimeError(true);
+      }
+      if (endTime == "") {
+        setEndTimeError(true);
+      }
+    } else {
+      if (startTime.getTime() >= endTime.getTime()) {
+        setValidationError("Start time should be before end time");
+      } else {
+        // POST REQUEST
+      }
     }
   };
 
@@ -126,10 +137,11 @@ const LectureConfig = () => {
         .catch((error) => {
           console.error(error);
         });
-      }}
-      const handleCloseSnackbar = () => {
-        setShowSnackbar(false);
-      };
+    }
+  };
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
 
   return (
     <div className="lec-config">
@@ -292,10 +304,18 @@ const LectureConfig = () => {
 
               <Grid container>
                 <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
-              <BasicTimeField label={"Start Time"} setTime={setStartTime} error={startTimeError}/>
+                  <BasicTimeField
+                    label={"Start Time"}
+                    setTime={setStartTime}
+                    error={startTimeError}
+                  />
                 </Grid>
                 <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
-              <BasicTimeField label={"End Time"} setTime={setEndTime} error={endTimeError}/>
+                  <BasicTimeField
+                    label={"End Time"}
+                    setTime={setEndTime}
+                    error={endTimeError}
+                  />
                 </Grid>
               </Grid>
 
@@ -321,12 +341,9 @@ const LectureConfig = () => {
                   errorMessage="Please fill out required fields"
                 />
               ) : null}
-              {validationError && 
-                <ErrorSnackbar
-                  error={true}
-                  errorMessage={validationError}
-                />
-              }
+              {validationError && (
+                <ErrorSnackbar error={true} errorMessage={validationError} />
+              )}
 
               <Snackbar
                 open={showSnackbar}
