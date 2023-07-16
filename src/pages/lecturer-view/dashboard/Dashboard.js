@@ -8,11 +8,11 @@ const Dashboard = () => {
 
   // to load all the data before render
   useEffect(() => {
-    getTotParticipant
+    getTotParticipant()
   }, []);
 
   useEffect(() => {
-    getAttendance
+    getAttendance()
   }, []);
 
 
