@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="page-container">
       <div className="content-wrap">
-        <Navbar />
+        {/* <Navbar /> */}
         <Router />
       </div>
       <Footer />
