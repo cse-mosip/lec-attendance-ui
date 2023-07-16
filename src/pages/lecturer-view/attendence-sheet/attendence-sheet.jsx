@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Link, TextField, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
+import SideNav from "../../../components/navbar/SideNav"
 
 
 function AttendanceSheet() {
@@ -137,6 +138,8 @@ function AttendanceSheet() {
     };
 
     return (
+        <>
+        <SideNav/>
         <Container>
             <Typography style={{paddingBottom:"10px"}} variant='h3'>Attendance</Typography>
             <div style={{ marginBottom: '1rem' }}>
@@ -220,6 +223,7 @@ function AttendanceSheet() {
                 </Table>
             </TableContainer>
         </Container>
+        </>
     );
 }
 
