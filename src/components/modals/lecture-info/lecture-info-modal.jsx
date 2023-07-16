@@ -13,7 +13,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { TableVirtuoso } from 'react-virtuoso'
+import { TableVirtuoso } from 'react-virtuoso';
 
 const style = {
   modalBox: {
@@ -47,9 +47,9 @@ const style = {
 };
 
 function LectureInfoModal(props) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const [open, setOpen] = React.useState(props.show);
+  // const handleOpen = () => setOpen(true);
+  const handleClose = () => props.setShow(false);
   const presentStudent = props.presentStudents;
   const totalStudent = props.totalStudents;
 
@@ -121,11 +121,11 @@ function LectureInfoModal(props) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
+        open={props.show}
         onClose={handleClose}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
@@ -135,7 +135,7 @@ function LectureInfoModal(props) {
           },
         }}
       >
-        <Fade in={open}>
+        <Fade in={props.show}>
           <Box sx={style.modalBox}>
             <Box sx={style.lectureDetails}>
                 <Typography variant="h5" component="h2" style={style.transitionModalTitle}>

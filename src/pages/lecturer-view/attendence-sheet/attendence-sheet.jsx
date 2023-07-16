@@ -5,8 +5,8 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Table, TableContainer, TableHead, TableBody, TableRow, Paper, Link, TextField, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
-
 import LectureInfoModal from '../../../components/modals/lecture-info/lecture-info-modal';
+import dummyData from './attendance_sheet_data.json';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -173,15 +173,18 @@ function AttendanceSheet() {
 
     const [selectedRow, setSelectedRow] = useState(null);
 
+    const [show, setShow] = useState(false);
+    const showModal = () => {
+        setShow(true);
+    }
 
-    const handleRowClick = (index) => {
-        setSelectedRow(index);
-    };
-
-
-
+    // const handleRowClick = (index) => {
+    //     setSelectedRow(index);
+    //     showModal();
+    // };
 
     return (
+        <>
         <Container>
             <Typography style={{ paddingBottom: "10px" }} variant='h3'>Attendance</Typography>
             <div style={{ marginBottom: '1rem', position: 'fixed', top: '0', paddingTop: '5rem', paddingBottom: '0.25rem', overflow: 'hidden', backgroundColor: '#ffffff', width: '100%' }}>
@@ -264,7 +267,7 @@ function AttendanceSheet() {
                                 component={Link}
                                 to={`/details/${entry["module code"]}`}
                                 style={{ textDecoration: 'none', cursor: 'pointer' }}
-                                onClick={() => handleRowClick(index)}
+                                onClick={showModal}
                             >
                                 <StyledTableCell >{entry["module code"]}</StyledTableCell >
                                 <StyledTableCell >{entry["module name"]}</StyledTableCell >
@@ -280,6 +283,8 @@ function AttendanceSheet() {
             </TableContainer>
 
         </Container>
+        <LectureInfoModal presentStudents={dummyData} totalStudents={50} show={show} setShow={(bool) => setShow(bool)}/>
+        </>
     );
 }
 
