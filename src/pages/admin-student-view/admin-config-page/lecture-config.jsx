@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import React, { useState } from "react";
 import {
   Button,
@@ -13,6 +12,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Snackbar
 } from "@mui/material";
 import axios from "axios";
 import ErrorSnackbar from "./error-snackbar";
@@ -127,6 +127,9 @@ const LectureConfig = () => {
           console.error(error);
         });
       }}
+      const handleCloseSnackbar = () => {
+        setShowSnackbar(false);
+      };
 
   return (
     <div className="lec-config">
@@ -251,9 +254,6 @@ const LectureConfig = () => {
                     onChange={handleChangeModule}
                   />
                 )}
-                onChange={(e, value) => {
-                  setModule(value.code + " - " + value.name);
-                }}
               />
 
               <Autocomplete
