@@ -17,6 +17,8 @@ import {
 import axios from "axios";
 import ErrorSnackbar from "./error-snackbar";
 import BasicTimeField from "./basic-time-field";
+import { useNavigate } from 'react-router-dom';
+import SideNav from "../../../components/navbar/SideNav";
 
 const LectureConfig = () => {
   const [intake, setIntake] = useState("");
@@ -38,6 +40,8 @@ const LectureConfig = () => {
   const [startTimeError, setStartTimeError] = useState(false);
   const [endTimeError, setEndTimeError] = useState(false);
   const [validationError, setValidationError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChangeIntake = (event) => {
     const selectedIntake = event.target.value;
@@ -107,8 +111,26 @@ const LectureConfig = () => {
         setValidationError("Start time should be before end time");
       } else {
         // POST REQUEST
+
+        // go to student view using the data recieved from post request
+        navigate ('/student-view',
+        {state: {
+          moduleCode: 'CS1023',
+          moduleName: 'Human Computer Interaction',
+          lecturer: 'Prof. Indika Perera'
+        }}
+        );
       }
     }
+    // temp: remove this code later
+    // go to student view using the data recieved from post request
+    navigate ('/student-view',
+      {state: {
+        moduleCode: 'CS1023',
+        moduleName: 'Human Computer Interaction',
+        lecturer: 'Prof. Indika Perera'
+      }}
+      );
   };
 
   const handleGetDetails = () => {
@@ -144,6 +166,8 @@ const LectureConfig = () => {
   };
 
   return (
+    <>
+    <SideNav/>
     <div className="lec-config">
       <Grid
         container
@@ -356,6 +380,7 @@ const LectureConfig = () => {
         </Grid>
       </Grid>
     </div>
+    </>
   );
 };
 

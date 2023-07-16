@@ -3,11 +3,15 @@ import IdleDisplay from './IdleDisplay';
 import SuccessDisplay from './SuccessDisplay';
 import ErrorDisplay from './ErrorDisplay';
 import axios from 'axios';
+import {useLocation} from 'react-router-dom';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 export default function StudentDisplay(props) {
     const [state, setState] = useState("idle");
     const [studentIndex, setStudentIndex] = useState('190000A');
     const [timestamp, setTimestamp] = useState('10:15 AM');
+    const location = useLocation();
 
     const markAttendance = () => {
         const apiUrl = { /* your-api-endpoint */ };
@@ -30,12 +34,17 @@ export default function StudentDisplay(props) {
                 
             });
     }
+    console.log(location.state)
 
     if (state === 'idle') {
         return (     
         <>
-            <IdleDisplay moduleCode={props.moduleCode} moduleName={props.moduleName} lecturer={props.lecturer}/>
-            <button onClick={markAttendance}>Scan fingerprint</button>
+            <IdleDisplay moduleCode={location.state.moduleCode} moduleName={location.state.moduleName} lecturer={location.state.lecturer}/>
+            <Box textAlign='center'>
+                <Button variant='contained' onClick={markAttendance}>
+                    Scan Fingerprint
+                </Button>
+            </Box>
         </>       
         )
     } else if (state === 'success') {
