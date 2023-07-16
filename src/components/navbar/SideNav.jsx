@@ -25,9 +25,11 @@ import Menu from "@mui/material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
+import SettingsIcon from '@mui/icons-material/Settings';
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Dashboard from "../../pages/lecturer-view/dashboard/Dashboard";
 
 const drawerWidth = 220;
 const iconColor = "#012970";
@@ -269,7 +271,9 @@ export default function MiniDrawer() {
                     color: iconColor,
                   }}
                 >
-                  <PeopleIcon />
+                  {text.toLowerCase() == "attendance sheet" ? (
+                  <PeopleIcon
+                  onClick={() => window.location.href = "/attendence-sheet"}/>) : null}
                 </ListItemIcon>
                 <ListItemText
                   primary={text}
@@ -282,7 +286,6 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           <Typography sx={{ color: "#899BBD", ml: 1 }}>Analyze</Typography>
-
           {["Dashboard", "Logout"].map((text, index) => (
             (text.toLowerCase() == "logout" && !isLoggedIn) ? null : (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -308,7 +311,8 @@ export default function MiniDrawer() {
                         onClick={handleLogout}
                       />
                     ) : text.toLowerCase() === "dashboard" ? (
-                      <DashboardIcon />
+                      <DashboardIcon 
+                      onClick={() => window.location.href = "/"}/>
                     ) : null}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
