@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -32,12 +32,9 @@ const LectureConfig = () => {
   const handleChangeIntake = (event) => {
     const selectedIntake = event.target.value;
     setIntake(selectedIntake);
-
-    // Send request to backend
     axios
       .get("your_backend_url/module-details")
       .then((response) => {
-        // Handle the response from the backend
         if (response.ok) {
           return response.json();
         } else {
@@ -46,7 +43,6 @@ const LectureConfig = () => {
       })
       .then((data) => {
         if (data.status === "success") {
-          // Update the modules and lecturers state with the response data
           const modulesData = data.data.map((module) => ({
             code: module.module_code,
             name: module.module_name,
