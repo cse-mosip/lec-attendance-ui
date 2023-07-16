@@ -32,30 +32,6 @@ const LectureConfig = () => {
   const handleChangeIntake = (event) => {
     const selectedIntake = event.target.value;
     setIntake(selectedIntake);
-    axios
-      .get("your_backend_url/module-details")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Error occurred while fetching data");
-        }
-      })
-      .then((data) => {
-        if (data.status === "success") {
-          const modulesData = data.data.map((module) => ({
-            code: module.module_code,
-            name: module.module_name,
-          }));
-          setModules(modulesData);
-          setLecturers(module.data[0].lecturer);
-        } else {
-          console.error(data.reason);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
 
   const handleChangeSemester = (event) => {
@@ -111,6 +87,35 @@ const LectureConfig = () => {
     }
   };
 
+  const handleGetDetails = () => {
+    if (intake && semester) {
+      axios
+        .get("your_backend_url/module-details")
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Error occurred while fetching data");
+          }
+        })
+        .then((data) => {
+          if (data.status === "success") {
+            const modulesData = data.data.map((module) => ({
+              code: module.module_code,
+              name: module.module_name,
+            }));
+            setModules(modulesData);
+            setLecturers(module.data[0].lecturer);
+          } else {
+            console.error(data.reason);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+
   const handleClosePopup = () => {
     setShowPopup(false);
   };
@@ -146,7 +151,7 @@ const LectureConfig = () => {
               </Typography>
 
               <Grid container>
-                <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
+                <Grid item xs={3} sx={{ ml: 2, mb: 2 }}>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
                       Intake
@@ -166,7 +171,7 @@ const LectureConfig = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
+                <Grid item xs={3} sx={{ ml: 2, mb: 2 }}>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
                       Semester
@@ -190,6 +195,21 @@ const LectureConfig = () => {
                     </Select>
                   </FormControl>
                 </Grid>
+                <Button
+                  variant="contained"
+                  sx={{
+                    marginTop: 2,
+                    marginBottom: 2,
+                    width: "auto",
+                    backgroundColor: "#4154F1",
+                    ml: "auto",
+                    mr: "auto",
+                    display: "block",
+                  }}
+                  onClick={handleGetDetails}
+                >
+                  GET DETAILS
+                </Button>
               </Grid>
 
               <Autocomplete
