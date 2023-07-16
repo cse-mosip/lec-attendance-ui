@@ -108,7 +108,7 @@ const Login = () => {
 
                 {/* Submit button */}
                 <Box sx={{ alignSelf: 'flex-start' }}>
-                  <Button variant="contained" color="primary" type="submit">
+                  <Button variant="contained" sx={{backgroundColor: "#4154F1"}} type="submit">
                     Sign In
                   </Button>
                 </Box>
