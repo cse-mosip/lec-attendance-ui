@@ -25,6 +25,7 @@ import Menu from "@mui/material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
+import SettingsIcon from '@mui/icons-material/Settings';
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -285,7 +286,37 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           <Typography sx={{ color: "#899BBD", ml: 1 }}>Analyze</Typography>
+          {["Lecture Config"].map((text, index) => (
+            (text.toLowerCase() == "lecture config" && !isLoggedIn) ? null : (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                    color: iconColor,
+                    //   backgroundColor: "#F0F4FB",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                      color: iconColor,
+                    }}
+                  >
+                    {text.toLowerCase() === "lecture config" ? (
+                      <SettingsIcon 
+                      onClick={() => window.location.href = "lecture-config"}/>
+                    ) : null}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            )
 
+          ))}
           {["Dashboard", "Logout"].map((text, index) => (
             (text.toLowerCase() == "logout" && !isLoggedIn) ? null : (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
