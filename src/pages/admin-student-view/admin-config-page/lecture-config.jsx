@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useState } from "react";
 import {
   Button,
@@ -84,7 +85,7 @@ const LectureConfig = () => {
     if (lecturer == "") {
       setLecturerError(true);
     }
-    if (module == "") {
+    if (moduleName == "") {
       setModuleError(true);
     }
     if (startTime == "") {
