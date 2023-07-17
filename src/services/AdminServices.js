@@ -47,4 +47,5 @@ const adminLogin = async (loginDetails) => {
 export {
     configLectureDetails,
     endLecture,
+    adminLogin,
 };
