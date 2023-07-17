@@ -196,8 +196,8 @@ function AttendanceSheet() {
     return (
         <>
         <SideNav/>
-        <Container>
-            <Typography style={{ paddingBottom: "10px" }} variant='h3'>Attendance</Typography>
+        <Container style={{marginTop: '150px'}}>
+            <Typography variant='h3'>Attendance</Typography>
 
             <div style={{ marginBottom: '1rem', position: 'fixed', top: '0', left: "0", paddingTop: '5rem', paddingBottom: '0.25rem', overflow: 'hidden', backgroundColor: '#ffffffee', width: "100%" }}>
                 <div style={{ display: 'flex', justifyContent: 'center', margin: "0 10% 0 10%" }}>
