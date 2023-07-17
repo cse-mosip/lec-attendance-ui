@@ -8,11 +8,11 @@ const Dashboard = () => {
 
   // to load all the data before render
   useEffect(() => {
-    getTotParticipant
+    getTotParticipant()
   }, []);
 
   useEffect(() => {
-    getAttendance
+    getAttendance()
   }, []);
 
 
@@ -32,7 +32,9 @@ const Dashboard = () => {
           setTotParticipant(lectureTotal);
         }
       }
-    )
+    ).catch((error) => {
+      console.error(error);
+    });
   }
 
   const getAttendance = (event) => {
@@ -51,7 +53,9 @@ const Dashboard = () => {
           setAttendace(lectureAttendance);
         }
       }
-    )
+    ).catch((error) => {
+      console.error(error);
+    });
   }
 
   return (
