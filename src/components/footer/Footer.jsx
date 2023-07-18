@@ -13,7 +13,7 @@ function Footer() {
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
         <Link color="inherit" href="https://www.mosip.io">
-          Visit Our Website
+          Student Attendance Management System
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
