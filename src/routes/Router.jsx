@@ -10,6 +10,7 @@ import StudentDisplay from "../pages/admin-student-view/student-view/student";
 import LectureInfoModal from "../components/modals/lecture-info/lecture-info-modal";
 import ProtectedRoute from "./ProtectedRoutes";
 import SharedLayout from "./SharedLayout";
+import Profile from "../pages/lecture-profile/LectureProfile";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function Router() {
           <Route path="/attendence-sheet" element={<AttendenceSheet />} />
           <Route path="/student-view" element={<StudentDisplay />} />
           <Route path="/lecture-info" element={<LectureInfoModal />} />
+          <Route path="/lecturer-profile" element={<Profile/>} />
           <Route path="/" element={
           <ProtectedRoute>
             <SharedLayout/>
