@@ -3,12 +3,12 @@ import axios from "axios";
 const APIEndpoint = process.env.REACT_APP_API_ENDPOINT + "/admin";
 
 // Configure the lecture details
-const configLectureDetails = async() => {
+const configLectureDetails = async(lectureDetails) => {
     
     const response = await axios ({
-       method : "POST",
-       url : APIEndpoint + "/lecture/start-lecture",
-
+        method : "POST",
+        url : APIEndpoint + "/lecture/config-lecture",
+        data : lectureDetails,
     })
 
     return response;
