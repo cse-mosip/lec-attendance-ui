@@ -15,11 +15,11 @@ const configLectureDetails = async() => {
 }
 
 // start the leacture by admin
-const startLecture = async() => {
+const startLecture = async(lectureId) => {
     
         const response = await axios ({
             method : "GET",
-            url : APIEndpoint + "/lecture/start-lecture",
+            url : APIEndpoint + "/lecture/start-lecture/" + lectureId,
     
         })
     
@@ -60,4 +60,5 @@ export {
     configLectureDetails,
     endLecture,
     adminLogin,
+    startLecture,
 };
