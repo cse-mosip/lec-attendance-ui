@@ -2,62 +2,67 @@ import { useState, useEffect } from "react";
 import IdleDisplay from './IdleDisplay';
 import SuccessDisplay from './SuccessDisplay';
 import ErrorDisplay from './ErrorDisplay';
-import axios from 'axios';
 import {useLocation} from 'react-router-dom';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import { markAttendance } from "../../../services/StudentServices";
+import { markAttendance, getFingerprint } from "../../../services/StudentServices";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function StudentDisplay(props) {
+    const [active, setActive] = useState(true);
     const navigate = useNavigate();
     const [state, setState] = useState("");
     const [studentIndex, setStudentIndex] = useState('190000A');
-    const [timestamp, setTimestamp] = useState('10:15 AM');
     const location = useLocation();
     
+    const errorToast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        iconColor: "red",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        background: "#efafaf",
+        timer: 2000
+    });
 
-    // const fingerprintHandler = () => {
-    //     const apiUrl = { /* your-api-endpoint */ };
-    //     const requestData = { /* your request data */ };
-    //     axios.post(apiUrl, requestData)
-    //           .then(response => {
-    //             console.log(response.json());
-    //             setStudentIndex(response.data.studentIndex);
-    //             setTimestamp(response.data.timestamp);
-    //             setState('success');
-    //             setTimeout(function(){
-    //                 setState('idle');
-    //             }, 2000);
-    //           })
-    //           .catch(error => {
-    //             setState('success');
-    //             setTimeout(function(){
-    //                 setState('idle');
-    //             }, 2000);
-                
-    //         });
-    // }
+    const MAX_RETRIES = 20;
 
     const fingerprintHandler = () => {
-        markAttendance().then(response => {
-            console.log(response.json());
-            setStudentIndex(response.data.studentIndex);
-            setTimestamp(response.data.timestamp);
-            setState('success');
-            setTimeout(function(){
-                setState('idle');
-            }, 2000);
-            })
-            .catch(error => {
-            setState('success');
-            setTimeout(function(){
-                setState('idle');
-            }, 2000);
-            
-        });
+        var timesRun = 0;
+        setActive(false);
+        var interval = setInterval(function(){
+            timesRun += 1;
+            if(timesRun === MAX_RETRIES){
+                clearInterval(interval);
+                setActive(true);
+                errorToast.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Reading fingerprint failed",
+                });
+            }
+            getFingerprint().then(fingerData => {
+                markAttendance(fingerData).then(response => {
+                    console.log(response.json());
+                    setStudentIndex(response.data.studentIndex);
+                    setState('success');
+                    setTimeout(function(){
+                        setState('idle');
+                        setActive(true);
+                        clearInterval(interval);
+                    }, 2000);
+                    })
+                    .catch(error => {
+                    setState('success');
+                    setTimeout(function(){
+                        setState('idle');
+                        setActive(true);
+                        clearInterval(interval);
+                    }, 2000);
+                })
+            }).catch(error => {});
+        }, 200)
     }
-
+ 
     useEffect(() => {
         if (location.state==null) {
             navigate("/lecture-config");
@@ -69,17 +74,18 @@ export default function StudentDisplay(props) {
     if (state === 'idle') {
         return (     
         <>
-            <IdleDisplay moduleCode={location.state.moduleCode} moduleName={location.state.moduleName} lecturer={location.state.lecturer}/>
-            <Box textAlign='center'>
-                <Button variant='contained' onClick={fingerprintHandler}>
-                    Scan Fingerprint
-                </Button>
-            </Box>
+            <IdleDisplay moduleCode={location.state.moduleCode} moduleName={location.state.moduleName} lecturer={location.state.lecturer} active={active} onclickHandler={fingerprintHandler}/>
         </>       
         )
     } else if (state === 'success') {
+        const getCurrentTime = () => {
+            let today = new Date();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            return time;
+        }
+
         return (
-           <SuccessDisplay studentIndex={studentIndex} timestamp={timestamp}/>
+           <SuccessDisplay studentIndex={studentIndex} timestamp={getCurrentTime()}/>
         )
     } else if (state === 'error')  {
         return (
