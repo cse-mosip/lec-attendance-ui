@@ -2,7 +2,7 @@ import axios from "axios";
 
 const APIEndpoint = process.env.REACT_APP_API_ENDPOINT + "/admin";
 
-
+// Configure the lecture details
 const configLectureDetails = async() => {
     
     const response = await axios ({
@@ -12,6 +12,18 @@ const configLectureDetails = async() => {
     })
 
     return response;
+}
+
+// start the leacture by admin
+const startLecture = async() => {
+    
+        const response = await axios ({
+            method : "GET",
+            url : APIEndpoint + "/lecture/start-lecture",
+    
+        })
+    
+        return response;
 }
 
 // end lecture
