@@ -1,13 +1,21 @@
+import React, { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Fingerprint from './assets/Fingerprint.png';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import socket from '../../../services/FingerScanSocket';
 
 export default function IdleDisplay(props) {
+    useEffect(() => {
+        // Listen for events
+        socket.on('message', (data) => {
+          console.log('Received data:', data);
+          props.onScanHandler(data);
+        });
+    });
+
     return (
         <>
         <Grid container spacing={0} direction="column" alignItems="center" justify="center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
@@ -24,11 +32,6 @@ export default function IdleDisplay(props) {
                         <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             <Typography align="left" variant="h3" >Scan your fingerprint to mark your attendance</Typography> 
                         </Container>
-                        <Box textAlign='center' sx={{marginTop:'3em'}}>
-                            <Button variant='contained' onClick={props.onclickHandler} disabled={!props.active}>
-                                Scan Fingerprint
-                            </Button>
-                        </Box>
                     </CardContent>
                 </Card>
              </Grid>
