@@ -230,8 +230,7 @@ const LectureConfig = () => {
   };
 
   return (
-    <>
-      <SideNav />
+      <AdminSideNav />
       <div className="lec-config">
         <Grid
           container
