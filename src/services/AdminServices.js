@@ -7,7 +7,7 @@ const configLectureDetails = async(lectureDetails) => {
     
     const response = await axios ({
         method : "POST",
-        url : APIEndpoint + "/lecture/config-lecture",
+        url : APIEndpoint + "/lecture/create",
         data : lectureDetails,
     })
 
