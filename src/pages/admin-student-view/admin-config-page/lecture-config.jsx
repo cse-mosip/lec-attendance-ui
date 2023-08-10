@@ -201,7 +201,7 @@ const LectureConfig = () => {
   };
 
   return (
-    <>
+    <> 
       <AdminSideNav />
       <div className="lec-config">
         <Grid
