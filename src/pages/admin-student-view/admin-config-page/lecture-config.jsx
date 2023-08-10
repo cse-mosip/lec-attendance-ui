@@ -58,6 +58,7 @@ const LectureConfig = () => {
     try{
     const response=await getAllHalls()
     setHalls(response.data.data)
+      console.log("halls", halls)
   }
     catch{
       console.log("error");

@@ -2,7 +2,7 @@ import axios from "axios";
 import { DOMAIN_NAME } from "../config.js"
 
 const APIEndpoint = DOMAIN_NAME+ "/admin";
-const accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQXR0ZW5kYW5jZVNlcnZpY2UiLCJhdWQiOiJBdHRlbmRhbmNlRnJvbnRlbmRzIiwiaWF0IjoxNjkxNjYzNzE3LCJleHAiOjE2OTE2NjczMTcsIm5iZiI6MTY5MTY2MzcxNiwidXNlcl90eXBlIjoiMSJ9.7AuoR6CYVGCyWjwZIX_C5Wk3jAMDqAoolHzbh2kiGSLWLMVbYmUhkqunzCG-Hr6IY26gc6i-9u_gc2SB5cT38g"
+const accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQXR0ZW5kYW5jZVNlcnZpY2UiLCJhdWQiOiJBdHRlbmRhbmNlRnJvbnRlbmRzIiwiaWF0IjoxNjkxNjY5NzM4LCJleHAiOjE2OTE2NzMzMzgsIm5iZiI6MTY5MTY2OTczNywidXNlcl90eXBlIjoiMSJ9.AES3NeNPZUGBOxzKqgL6Gd0Ha5Pm7zUlDEYK_UfkIxVT7K137cKoIKuuleydnMnQpwl0Tbkx8VSozBkv0hPeMQ"
 
 
 
