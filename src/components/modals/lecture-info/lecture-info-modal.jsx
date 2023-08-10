@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -14,6 +14,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
+import {getStudentByLectureID} from "../../../services/AttendenceSheetService";
 
 const style = {
   modalBox: {
@@ -50,8 +51,30 @@ function LectureInfoModal(props) {
   // const [open, setOpen] = React.useState(props.show);
   // const handleOpen = () => setOpen(true);
   const handleClose = () => props.setShow(false);
-  const presentStudent = props.presentStudents;
-  const totalStudent = props.totalStudents;
+  const lectureData = props.lectureData;
+  const presentStudent = lectureData.present
+  const totalStudent = lectureData.expectedAttendance;
+  const lectureID = lectureData['lec id'];
+  const [studentDetails, setStudentDetails] = useState([])
+
+
+    useEffect(() => {
+        getStudentByLectureID(lectureID).then(res => {
+
+            const res_data = res.data.data.map(student => {
+                return {
+                    "id": student.index_no,
+                    "name": student.student_name,
+                    "arrivalTime": null
+                };
+            });
+            setStudentDetails(res_data)
+            console.log("studentDetails", studentDetails)
+
+        }).catch(res => {
+            console.log("student catch", res)
+        })
+    }, [lectureID]);
 
   const columns = [
     {
@@ -139,10 +162,10 @@ function LectureInfoModal(props) {
           <Box sx={style.modalBox}>
             <Box sx={style.lectureDetails}>
                 <Typography variant="h5" component="h2" style={style.transitionModalTitle}>
-                CS-4242 - Human Computer Interaction
+                    {lectureData['module name']}
                 </Typography>
-                <Typography variant="h6" component="h2" style={style.transitionModalDate}> 
-                Date - 09/06/2023
+                <Typography variant="h6" component="h2" style={style.transitionModalDate}>
+                    {lectureData['date']}
                 </Typography>
             </Box>
             <Box style={style.pieChartBox} >
@@ -152,8 +175,8 @@ function LectureInfoModal(props) {
                         arcLabel: (item) => `${item.value}`,
                         arcLabelMinAngle: 45,
                         data: [
-                            { id: 0, value: presentStudent.length, label: 'Present' },
-                            { id: 1, value: totalStudent-presentStudent.length, label: 'Absent' },
+                            { id: 0, value: presentStudent, label: 'Present' },
+                            { id: 1, value: totalStudent-presentStudent, label: 'Absent' },
                         ],
                         },
                     ]}
@@ -168,7 +191,7 @@ function LectureInfoModal(props) {
                 <Box style={style.attendanceSheet}>
                     <Paper style={{ height: 300, width: '100%' }}>
                         <TableVirtuoso
-                            data={props.presentStudents}
+                            data={studentDetails}
                             components={VirtuosoTableComponents}
                             fixedHeaderContent={fixedHeaderContent}
                             itemContent={rowContent}
