@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -18,8 +18,10 @@ import axios from "axios";
 import ErrorSnackbar from "./error-snackbar";
 import BasicTimeField from "./basic-time-field";
 import { useNavigate } from "react-router-dom";
-import AdminSideNav from "../../../components/navbar/AdminSideNav";
+import SideNav from "../../../components/navbar/SideNav";
 import Swal from "sweetalert2";
+import { getAllHalls } from "../../../services/AdminServices";
+
 
 const LectureConfig = () => {
   const [disableProceed, setDisableProceed] = useState(true);
@@ -28,8 +30,10 @@ const LectureConfig = () => {
   const [moduleCode, setModuleCode] = useState("");
   const [moduleName, setModuleName] = useState("");
   const [lecturer, setLecturer] = useState("");
+  const [hall, setHall] = useState("");
   const [modules, setModules] = useState([]);
   const [lecturers, setLecturers] = useState([]);
+  const [halls, setHalls] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
@@ -39,9 +43,26 @@ const LectureConfig = () => {
   const [semesterError, setSemesterError] = useState(false);
   const [lecturerError, setLecturerError] = useState(false);
   const [moduleError, setModuleError] = useState(false);
+  const [hallError, setHallError] = useState(false);
   const [startTimeError, setStartTimeError] = useState(false);
   const [endTimeError, setEndTimeError] = useState(false);
   const [validationError, setValidationError] = useState("");
+
+  
+  useEffect(() => {
+    getHalls()
+  }, [])
+  
+  
+  const getHalls = async () => {
+    try{
+    const response=await getAllHalls()
+    setHalls(response.data.data)
+  }
+    catch{
+      console.log("error");
+    }
+}
 
   const errorToast = Swal.mixin({
     toast: true,
@@ -82,11 +103,17 @@ const LectureConfig = () => {
     }
   };
 
+  const handleChangeHall = (event) => {
+    const selectedHall = event.target.value;
+    setHall(selectedHall);
+  }
+
   const handleProceed = () => {
     setIntakeError(false);
     setSemesterError(false);
     setLecturerError(false);
     setModuleError(false);
+    setHallError(false);
     setStartTimeError(false);
     setEndTimeError(false);
     setValidationError("");
@@ -96,6 +123,7 @@ const LectureConfig = () => {
       !semester ||
       !lecturer ||
       !moduleName ||
+      !hall ||
       !startTime ||
       !endTime
     ) {
@@ -150,6 +178,7 @@ const LectureConfig = () => {
   };
 
   const handleGetDetails = () => {
+    console.log("halls",halls)
     setIntakeError(false);
     setSemesterError(false);
 
@@ -201,7 +230,6 @@ const LectureConfig = () => {
   };
 
   return (
-    <> 
       <AdminSideNav />
       <div className="lec-config">
         <Grid
@@ -221,10 +249,10 @@ const LectureConfig = () => {
             >
               <CardContent>
                 <Typography
-                  variant="h4"
+                  variant="h5"
                   sx={{
                     m: 3,
-                    // color: "#4154F1",
+                    color: "#4154F1",
                     justifyContent: "center",
                     textAlign: "center",
                   }}
@@ -361,6 +389,37 @@ const LectureConfig = () => {
                   }}
                 />
 
+                  <Autocomplete
+                  id="module-select-demo"
+                  sx={{ ml: 2, mb: 2 }}
+                  options={halls}
+                  autoHighlight
+                  getOptionLabel={(option) => option.name}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      {option.name}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      error={hallError}
+                      {...params}
+                      label="Hall"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password",
+                        required: true,
+                      }}
+                      value={hall}
+                      onChange={handleChangeHall}
+                    />
+                  )}
+                />
+
                 <Grid container>
                   <Grid item xs={5} sx={{ ml: 2, mb: 2 }}>
                     <BasicTimeField
@@ -422,3 +481,4 @@ const LectureConfig = () => {
 };
 
 export default LectureConfig;
+
