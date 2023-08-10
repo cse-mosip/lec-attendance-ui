@@ -5,16 +5,16 @@ import Fingerprint from './assets/Fingerprint.png';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import useWebSocket from "react-use-websocket";
-import { WSS_FEED_URL } from '../../../services/StudentServices';
+import socket from '../../../services/FingerScanSocket';
 
 export default function IdleDisplay(props) {
-    const { sendJsonMessage, getWebSocket } = useWebSocket(WSS_FEED_URL, {
-        onOpen: () => console.log('WebSocket connection opened.'),
-        onClose: () => console.log('WebSocket connection closed.'),
-        shouldReconnect: (closeEvent) => true,
-        onMessage: (event) =>  props.onScanHandler(event)
-      });
+    useEffect(() => {
+        // Listen for events
+        socket.on('message', (data) => {
+          console.log('Received data:', data);
+          props.onScanHandler(data);
+        });
+    });
 
     return (
         <>
