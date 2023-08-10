@@ -2,16 +2,28 @@ import axios from "axios";
 
 const APIEndpoint = process.env.REACT_APP_API_ENDPOINT + "/admin";
 
-
-const configLectureDetails = async() => {
+// Configure the lecture details
+const configLectureDetails = async(lectureDetails) => {
     
     const response = await axios ({
-       method : "POST",
-       url : APIEndpoint + "/lecture/start-lecture",
-
+        method : "POST",
+        url : APIEndpoint + "/lecture/create",
+        data : lectureDetails,
     })
 
     return response;
+}
+
+// start the leacture by admin
+const startLecture = async(lectureId) => {
+    
+        const response = await axios ({
+            method : "GET",
+            url : APIEndpoint + "/lecture/start-lecture/" + lectureId,
+    
+        })
+    
+        return response;
 }
 
 // end lecture
@@ -48,4 +60,5 @@ export {
     configLectureDetails,
     endLecture,
     adminLogin,
+    startLecture,
 };
