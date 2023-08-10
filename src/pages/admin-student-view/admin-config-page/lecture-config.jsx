@@ -18,7 +18,7 @@ import axios from "axios";
 import ErrorSnackbar from "./error-snackbar";
 import BasicTimeField from "./basic-time-field";
 import { useNavigate } from "react-router-dom";
-import SideNav from "../../../components/navbar/SideNav";
+import AdminSideNav from "../../../components/navbar/AdminSideNav";
 import Swal from "sweetalert2";
 import { getAllHalls } from "../../../services/AdminServices";
 
@@ -230,6 +230,7 @@ const LectureConfig = () => {
   };
 
   return (
+    <>
       <AdminSideNav />
       <div className="lec-config">
         <Grid
