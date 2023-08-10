@@ -18,3 +18,27 @@ const getAllLectures = async () => {
     return response;
 }
 
+const getStudentByLectureID = async (lectureId) => {
+
+    const url = APIEndpoint + '/getAllLectures'
+    const response = await axios.get(
+        `http://localhost:8080/admin/lecture-attendance/lecture/${lectureId}`,
+        token
+    );
+    return response;
+}
+
+const getLectureByLectureID = async (lectureId) => {
+
+    const url = APIEndpoint + '/getAllLectures'
+    const response = await axios.get(
+        `http://localhost:8080/admin/lecture/get-lecture/${lectureId}`,
+        token
+    );
+    return response;
+}
+export {
+    getAllLectures,
+    getStudentByLectureID,
+    getLectureByLectureID
+};
