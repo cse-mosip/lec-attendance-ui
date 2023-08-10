@@ -1,6 +1,8 @@
 import axios from "axios";
+import { DOMAIN_NAME } from "../config.js"
 
-const APIEndpoint = process.env.REACT_APP_URL + "/admin/lecture";
+const APIEndpoint = DOMAIN_NAME+ "/admin";
+
 const token = {
     headers: {
         'Access-Token':
@@ -9,32 +11,20 @@ const token = {
 };
 
 const getAllLectures = async () => {
-    const url = APIEndpoint + '/getAllLectures'
-    const requestData = { /* your request data */ };
-    const response = await axios.get(
-        "http://localhost:8080/admin/lecture/getAllLectures",
-        token
-    );
+    const url = APIEndpoint + '/lecture/getAllLectures'
+    const response = await axios.get(url, token);
     return response;
 }
 
 const getStudentByLectureID = async (lectureId) => {
-
-    const url = APIEndpoint + '/getAllLectures'
-    const response = await axios.get(
-        `http://localhost:8080/admin/lecture-attendance/lecture/${lectureId}`,
-        token
-    );
+    const url = APIEndpoint + `/lecture-attendance/lecture/${lectureId}`
+    const response = await axios.get(url, token);
     return response;
 }
 
 const getLectureByLectureID = async (lectureId) => {
-
-    const url = APIEndpoint + '/getAllLectures'
-    const response = await axios.get(
-        `http://localhost:8080/admin/lecture/get-lecture/${lectureId}`,
-        token
-    );
+    const url = APIEndpoint + `/lecture/get-lecture/${lectureId}`
+    const response = await axios.get(url, token);
     return response;
 }
 export {
