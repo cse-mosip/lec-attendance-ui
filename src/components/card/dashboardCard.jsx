@@ -14,27 +14,18 @@ export default function PricingCards() {
 
     const [data, setData] = React.useState([]);
 
-    console.log("hello")
-
     useEffect(() => {
 
-        console.log("hello")
         const getCurrentLectureDetails = async() => {
             const response = await currentLectureDetails();
             const temp = await response.data.data[0];
             setData(temp);
-            console.log("hello")
-            console.log("DATA", data);
+            localStorage.setItem("lectureId", temp?.id)
         }
         getCurrentLectureDetails();
     }, []);
 
-    useEffect(() => {
-        if (data !== null) {
-            console.log("Accessing data:", data);
-            // You can perform actions with the data here
-        }
-    }, [data]);
+
 
     return (
         <Box
