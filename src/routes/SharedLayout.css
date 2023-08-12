@@ -1,0 +1,22 @@
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+    /* Ensure the layout spans the full viewport height */
+}
+
+.dashboard-content {
+    display: flex;
+    flex: 1;
+    /* Allow the content to expand and fill remaining space */
+    overflow-x: hidden;
+    /* Hide horizontal overflow to prevent cut-off */
+}
+
+.dashboard-page {
+    flex: 1;
+    /* Allow the page content to expand */
+    padding: 20px;
+    /* Add padding to prevent content from getting too close to the sidebar */
+    transition: margin-left 0.3s;
+    /* Add transition for smooth sidebar animation */
+}
