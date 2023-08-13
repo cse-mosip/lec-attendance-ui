@@ -21,11 +21,13 @@ import { useNavigate } from "react-router-dom";
 import AdminSideNav from "../../../components/navbar/AdminSideNav";
 import Swal from "sweetalert2";
 import {
+  configLectureDetails,
   createLecture,
   getAllHalls,
   getAllLecturers,
   getModules,
 } from "../../../services/AdminServices";
+import { LoadingButton } from "@mui/lab";
 
 const LectureConfig = () => {
   const [disableProceed, setDisableProceed] = useState(true);
@@ -42,6 +44,8 @@ const LectureConfig = () => {
   const [halls, setHalls] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [getDetailsLoading, setGetDetailsLoading] = useState(false);
+  const [proceedLoading, setProceedLoading] = useState(false);
 
   const [showSnackbar, setShowSnackbar] = useState(false);
 
@@ -102,6 +106,7 @@ const LectureConfig = () => {
     showConfirmButton: false,
     timerProgressBar: true,
     background: "#efafaf",
+    timer: 5000,
   });
 
   const successToast = Swal.mixin({
@@ -111,6 +116,7 @@ const LectureConfig = () => {
     showConfirmButton: false,
     timerProgressBar: true,
     background: "#89e0b3",
+    timer: 5000,
   });
 
   const navigate = useNavigate();
@@ -211,7 +217,7 @@ const LectureConfig = () => {
             text: "Start time should be before end time",
           });
         } else {
-          // POST REQUEST
+          setProceedLoading(true);
           const response = await createLecture(
             courseId,
             new Date(startTime).toISOString().substring(0, 19),
@@ -222,19 +228,47 @@ const LectureConfig = () => {
           );
           console.log("LEC CRT RES", response);
           if (response.data.status === "LECTURE_CREATED_SUCCESSFULLY") {
-            successToast.fire({
-              icon: "success",
-              title: "Success",
-              text: response.data.message,
-            });
+            // successToast.fire({
+            //   icon: "success",
+            //   title: "Success",
+            //   text: response.data.message,
+            // });
+
+            try {
+              const uniqueLecId = response.data.data;
+              const res = await configLectureDetails(uniqueLecId);
+              console.log("LEC STRT RES", res);
+              if (res.data.status === 'OK') {
+                successToast.fire({
+                  icon: "success",
+                  title: "Success",
+                  text: res.data.message,
+                });
+              } else {
+                errorToast.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: res.data.message,
+                });
+              }
+            } catch (error) {
+              console.log("LEC STRT ERR\n", error);
+              errorToast.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error starting the lecture",
+              });
+            }
+
             // go to student view using the data recieved from post request
-            navigate("/student-view", {
-              state: {
-                moduleCode,
-                moduleName,
-                lecturer: lecturerName,
-              },
-            });
+            // navigate("/student-view", {
+            //   state: {
+            //     moduleCode,
+            //     moduleName,
+            //     lecturer: lecturerName,
+            //   },
+            // });
+
           } else {
             errorToast.fire({
               icon: "error",
@@ -242,9 +276,11 @@ const LectureConfig = () => {
               text: response.data.message,
             });
           }
+          setProceedLoading(false);
         }
       }
     } catch (error) {
+      console.log("LEC CRT ERR\n", error);
       errorToast.fire({
         icon: "error",
         title: "Error",
@@ -270,6 +306,7 @@ const LectureConfig = () => {
         text: "Please fill out required fields",
       });
     } else {
+      setGetDetailsLoading(true);
       if (intake) {
         try {
           const response = await getModules(intake);
@@ -306,6 +343,7 @@ const LectureConfig = () => {
           });
         }
       }
+      setGetDetailsLoading(false);
     }
   };
 
@@ -391,7 +429,8 @@ const LectureConfig = () => {
                       </Select>
                     </FormControl>
                   </Grid> */}
-                  <Button
+                  <LoadingButton
+                    loading={getDetailsLoading}
                     variant="contained"
                     sx={{
                       marginTop: 2,
@@ -405,7 +444,7 @@ const LectureConfig = () => {
                     onClick={handleGetDetails}
                   >
                     GET DETAILS
-                  </Button>
+                  </LoadingButton>
                 </Grid>
 
                 <Autocomplete
@@ -477,7 +516,7 @@ const LectureConfig = () => {
                   )}
                   onChange={(e, value) => {
                     setLecturer(value.id);
-                    setLecturerName(value.name)
+                    setLecturerName(value.name);
                   }}
                 />
 
@@ -533,7 +572,8 @@ const LectureConfig = () => {
                 </Grid>
 
                 {!disableProceed && (
-                  <Button
+                  <LoadingButton
+                    loading={proceedLoading}
                     disabled={disableProceed}
                     variant="contained"
                     sx={{
@@ -548,7 +588,7 @@ const LectureConfig = () => {
                     onClick={handleProceed}
                   >
                     PROCEED
-                  </Button>
+                  </LoadingButton>
                 )}
               </CardContent>
             </Card>

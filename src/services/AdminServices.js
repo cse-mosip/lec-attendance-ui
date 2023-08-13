@@ -2,16 +2,18 @@ import axios from "axios";
 import { DOMAIN_NAME } from "../config.js"
 
 const APIEndpoint = DOMAIN_NAME + "/admin";
-const accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQXR0ZW5kYW5jZVNlcnZpY2UiLCJhdWQiOiJBdHRlbmRhbmNlRnJvbnRlbmRzIiwiaWF0IjoxNjkxODcxNjYwLCJleHAiOjE2OTE4NzUyNjAsIm5iZiI6MTY5MTg3MTY1OSwidXNlcl90eXBlIjoiMSJ9.SK82gwRAnfdKWab4xnhoUKGnsE0j0BOKGK-BYXNvXYLxgHG2qHEYQF3o7Gu_T0PBWRNWqAUOs60sc1WNN_aFqA"
+const accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQXR0ZW5kYW5jZVNlcnZpY2UiLCJhdWQiOiJBdHRlbmRhbmNlRnJvbnRlbmRzIiwiaWF0IjoxNjkxOTAxNTYyLCJleHAiOjE2OTE5MDUxNjIsIm5iZiI6MTY5MTkwMTU2MSwidXNlcl90eXBlIjoiMSJ9.smH63_GYevR_yJP6tkq5Vs3eVFUoik7XQvlLK1tZ85mRJRyif-VWrWIjEjnn0SwzRwwA9FJ7uMrOoLVU17Drhw"
 
 
 
-const configLectureDetails = async () => {
+const configLectureDetails = async (lectureId) => {
 
     const response = await axios({
-        method: "POST",
-        url: APIEndpoint + "/lecture/start-lecture",
-
+        method: "GET",
+        url: APIEndpoint + `/lecture/start-lecture/${lectureId}`,
+        headers: {
+            'Access-Token': accessToken
+        }
     })
 
     return response;
