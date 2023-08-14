@@ -9,8 +9,8 @@ export default function SuccessDisplay(props) {
         <>
             <Container sx={{display: 'flex',  flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'}} maxWidth="xl">
                 <Typography align="center" variant="h1">Attendance marked successfully</Typography>
-                <Typography align="Center" variant="h4">Student Index: {props.studentIndex}</Typography>
-                <Typography align="Center" variant="h4">Recorded Time: {props.timestamp}</Typography>
+                <Typography align="center" variant="h4">Student Index: {props.studentIndex}</Typography>
+                <Typography align="center" variant="h4">Recorded Time: {props.timestamp}</Typography>
                 <Box align='center'>
                     <img width='20%' src={success}></img>
                 </Box>
