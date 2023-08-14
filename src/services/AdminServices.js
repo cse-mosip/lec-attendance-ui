@@ -3,8 +3,7 @@ import { DOMAIN_NAME } from "../config.js"
 
 
 const APIEndpoint = DOMAIN_NAME + "/admin";
-const accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiQXR0ZW5kYW5jZVNlcnZpY2UiLCJhdWQiOiJBdHRlbmRhbmNlRnJvbnRlbmRzIiwiaWF0IjoxNjkxOTAxNTYyLCJleHAiOjE2OTE5MDUxNjIsIm5iZiI6MTY5MTkwMTU2MSwidXNlcl90eXBlIjoiMSJ9.smH63_GYevR_yJP6tkq5Vs3eVFUoik7XQvlLK1tZ85mRJRyif-VWrWIjEjnn0SwzRwwA9FJ7uMrOoLVU17Drhw"
-
+const accessToken = sessionStorage.getItem("AccessToken")
 
 
 
