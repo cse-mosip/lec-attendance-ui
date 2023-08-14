@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Box, Card, Button, Checkbox, Container, FormControlLabel, Grid, Radio, RadioGroup, TextField, Typography, InputLabel } from '@mui/material';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   // State variables for form fields
   const [username, setUsername] = useState('');
@@ -9,11 +9,40 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [userType, setUserType] = useState('student');
 
+  const navigate = useNavigate()
+  const APIEndpoint = process.env.REACT_APP_API_ENDPOINT + "/admin";
+
   // Function to handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`Logging in as a ${userType} with username: ${username} and password: ${password}`);
+  
+    try {
+        const response = await fetch(APIEndpoint + '/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                grant_type: 'password',
+                username: username,
+                password: password,
+                fingerprint: "data"
+            }),
+        });
+        
+        const data = await response.json();
+        sessionStorage.setItem("AccessToken",data.access_token)
+        if (data.user_type === 'ADMIN') {
+            navigate("/lecture-config",{state:data})
+        } else {
+          navigate("/",{state:data})
+        }
+
+    } catch (error) {
+        console.error("Error logging in:", error);
+    }
   };
+
   
   return (
     <>
@@ -69,7 +98,7 @@ const Login = () => {
                       '& .MuiFormControlLabel-root': {
                         border: '0px solid',
                         borderRadius: '4px',
-                        padding: '5px 60px 5px 20px',
+                        padding: '10px 60px 10px 20px',
                         margin:'0px 50px 0px 0px'
                       },
                     }}

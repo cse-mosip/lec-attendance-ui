@@ -20,8 +20,14 @@ import BasicTimeField from "./basic-time-field";
 import { useNavigate } from "react-router-dom";
 import AdminSideNav from "../../../components/navbar/AdminSideNav";
 import Swal from "sweetalert2";
-import { getAllHalls } from "../../../services/AdminServices";
-
+import {
+  configLectureDetails,
+  createLecture,
+  getAllHalls,
+  getAllLecturers,
+  getModules,
+} from "../../../services/AdminServices";
+import { LoadingButton } from "@mui/lab";
 
 const LectureConfig = () => {
   const [disableProceed, setDisableProceed] = useState(true);
@@ -29,13 +35,17 @@ const LectureConfig = () => {
   const [semester, setSemester] = useState("");
   const [moduleCode, setModuleCode] = useState("");
   const [moduleName, setModuleName] = useState("");
+  const [courseId, setCourseId] = useState("");
   const [lecturer, setLecturer] = useState("");
+  const [lecturerName, setLecturerName] = useState("");
   const [hall, setHall] = useState("");
   const [modules, setModules] = useState([]);
   const [lecturers, setLecturers] = useState([]);
   const [halls, setHalls] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [getDetailsLoading, setGetDetailsLoading] = useState(false);
+  const [proceedLoading, setProceedLoading] = useState(false);
 
   const [showSnackbar, setShowSnackbar] = useState(false);
 
@@ -48,21 +58,47 @@ const LectureConfig = () => {
   const [endTimeError, setEndTimeError] = useState(false);
   const [validationError, setValidationError] = useState("");
 
-  
   useEffect(() => {
-    getHalls()
-  }, [])
-  
-  
+    getHalls();
+    getLecturers();
+  }, []);
+
   const getHalls = async () => {
-    try{
-    const response=await getAllHalls()
-    setHalls(response.data.data)
-  }
-    catch{
-      console.log("error");
+
+    try {
+      const response = await getAllHalls();
+      setHalls(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      errorToast.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error getting lecture halls",
+      });
     }
-}
+  };
+
+  const getLecturers = async () => {
+    try {
+      const response = await getAllLecturers();
+      if (response.status == 200) {
+        console.log(response);
+        setLecturers(response.data.data);
+      } else {
+        errorToast.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error getting lecturers",
+        });
+      }
+    } catch (error) {
+      errorToast.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error getting lecturers",
+      });
+    }
+  };
 
   const errorToast = Swal.mixin({
     toast: true,
@@ -70,7 +106,18 @@ const LectureConfig = () => {
     iconColor: "red",
     showConfirmButton: false,
     timerProgressBar: true,
-    background: "#efafaf"
+    background: "#efafaf",
+    timer: 5000,
+  });
+
+  const successToast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    iconColor: "green",
+    showConfirmButton: false,
+    timerProgressBar: true,
+    background: "#89e0b3",
+    timer: 5000,
   });
 
   const navigate = useNavigate();
@@ -87,8 +134,8 @@ const LectureConfig = () => {
 
   const handleChangeModule = (event, value) => {
     if (value) {
-      setModuleCode(value.code);
-      setModuleName(value.name);
+      setModuleCode(value.moduleCode);
+      setModuleName(value.moduleName);
     } else {
       setModuleCode("");
       setModuleName("");
@@ -106,83 +153,149 @@ const LectureConfig = () => {
   const handleChangeHall = (event) => {
     const selectedHall = event.target.value;
     setHall(selectedHall);
-  }
-
-  const handleProceed = () => {
-    setIntakeError(false);
-    setSemesterError(false);
-    setLecturerError(false);
-    setModuleError(false);
-    setHallError(false);
-    setStartTimeError(false);
-    setEndTimeError(false);
-    setValidationError("");
-
-    if (
-      !intake ||
-      !semester ||
-      !lecturer ||
-      !moduleName ||
-      !hall ||
-      !startTime ||
-      !endTime
-    ) {
-      if (intake == "") {
-        setIntakeError(true);
-      }
-      if (semester == "") {
-        setSemesterError(true);
-      }
-      if (lecturer == "") {
-        setLecturerError(true);
-      }
-      if (moduleName == "") {
-        setModuleError(true);
-      }
-      if (startTime == "") {
-        setStartTimeError(true);
-      }
-      if (endTime == "") {
-        setEndTimeError(true);
-      }
-      errorToast.fire({
-        icon: "error",
-        title: "Error",
-        text: "Please fill out required fields",
-      });
-    } else {
-      if (startTime.getTime() >= endTime.getTime()) {
-        setValidationError("Start time should be before end time");
-      } else {
-        // POST REQUEST
-
-        // go to student view using the data recieved from post request
-        navigate("/student-view", {
-          state: {
-            moduleCode: "CS1023",
-            moduleName: "Human Computer Interaction",
-            lecturer: "Prof. Indika Perera",
-          },
-        });
-      }
-    }
-    // temp: remove this code later
-    // go to student view using the data recieved from post request
-    // navigate ('/student-view',
-    //   {state: {
-    //     moduleCode: 'CS1023',
-    //     moduleName: 'Human Computer Interaction',
-    //     lecturer: 'Prof. Indika Perera'
-    //   }}
-    //   );
   };
 
-  const handleGetDetails = () => {
-    console.log("halls",halls)
+  const handleProceed = async () => {
+    try {
+      setIntakeError(false);
+      setSemesterError(false);
+      setLecturerError(false);
+      setModuleError(false);
+      setHallError(false);
+      setStartTimeError(false);
+      setEndTimeError(false);
+      setValidationError("");
+
+      console.log(
+        "POST DATA\n",
+        courseId,
+        new Date(startTime).toISOString().substring(0, 19),
+        new Date(endTime).toISOString().substring(0, 19),
+        hall,
+        lecturer
+      );
+
+      if (
+        !intake ||
+        !lecturer ||
+        !moduleName ||
+        !hall ||
+        !startTime ||
+        !endTime ||
+        !hall
+      ) {
+        if (intake == "") {
+          setIntakeError(true);
+        }
+        if (semester == "") {
+          setSemesterError(true);
+        }
+        if (lecturer == "") {
+          setLecturerError(true);
+        }
+        if (moduleName == "") {
+          setModuleError(true);
+        }
+        if (startTime == "") {
+          setStartTimeError(true);
+        }
+        if (endTime == "") {
+          setEndTimeError(true);
+        }
+        if (hall == "") {
+          setHallError(true);
+        }
+        errorToast.fire({
+          icon: "error",
+          title: "Error",
+          text: "Please fill out required fields",
+        });
+      } else {
+        if (startTime.getTime() >= endTime.getTime()) {
+          errorToast.fire({
+            icon: "error",
+            title: "Duration Error",
+            text: "Start time should be before end time",
+          });
+        } else {
+          setProceedLoading(true);
+          const response = await createLecture(
+            courseId,
+            new Date(startTime).toISOString().substring(0, 19),
+            new Date(endTime).toISOString().substring(0, 19),
+            10,
+            hall,
+            lecturer
+          );
+          console.log("LEC CRT RES", response);
+          if (response.data.status === "LECTURE_CREATED_SUCCESSFULLY") {
+            // successToast.fire({
+            //   icon: "success",
+            //   title: "Success",
+            //   text: response.data.message,
+            // });
+
+            try {
+              const uniqueLecId = response.data.data;
+              const res = await configLectureDetails(uniqueLecId);
+              console.log("LEC STRT RES", res);
+              if (res.data.status === 'OK') {
+                successToast.fire({
+                  icon: "success",
+                  title: "Success",
+                  text: res.data.message,
+                });
+
+              // go to student view using the data recieved from post request
+              navigate("/student-view", {
+                state: {
+                  moduleCode:moduleCode,
+                  moduleName:moduleName,
+                  lecturer: lecturerName,
+                  lectureId:uniqueLecId,
+                },
+              });
+
+              } else {
+                errorToast.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: res.data.message,
+                });
+              }
+            } catch (error) {
+              console.log("LEC STRT ERR\n", error);
+              errorToast.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error starting the lecture",
+              });
+            }
+          } else {
+            errorToast.fire({
+              icon: "error",
+              title: "Error",
+              text: response.data.message,
+            });
+          }
+          setProceedLoading(false);
+        }
+      }
+    } catch (error) {
+      console.log("LEC CRT ERR\n", error);
+      errorToast.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error creating lecture",
+      });
+    }
+  };
+
+  const handleGetDetails = async () => {
     setIntakeError(false);
     setSemesterError(false);
 
-    if (!intake || !semester) {
+    if (!intake) {
       if (intake == "") {
         setIntakeError(true);
       }
@@ -195,33 +308,44 @@ const LectureConfig = () => {
         text: "Please fill out required fields",
       });
     } else {
-      if (intake && semester) {
-        axios
-          .get("your_backend_url/module-details")
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
+      setGetDetailsLoading(true);
+      if (intake) {
+        try {
+          const response = await getModules(intake);
+          if (response.status == 200) {
+            if (response.data.length == 0) {
+              errorToast.fire({
+                icon: "error",
+                title: "Error",
+                text: "No modules found for the intake",
+              });
+              setDisableProceed(true);
+              setModules([]);
             } else {
-              throw new Error("Error occurred while fetching data");
-            }
-          })
-          .then((data) => {
-            if (data.status === "success") {
-              const modulesData = data.data.map((module) => ({
-                code: module.module_code,
-                name: module.module_name,
-              }));
-              setModules(modulesData);
-              setLecturers(module.data[0].lecturer);
               setDisableProceed(false);
-            } else {
-              console.error(data.reason);
+              setModules(response.data);
+              successToast.fire({
+                icon: "success",
+                title: "Success",
+                text: "Success getting modules",
+              });
             }
-          })
-          .catch((error) => {
-            console.error(error);
+          } else {
+            errorToast.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error getting modules",
+            });
+          }
+        } catch {
+          errorToast.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error getting modules",
           });
+        }
       }
+      setGetDetailsLoading(false);
     }
   };
 
@@ -250,10 +374,9 @@ const LectureConfig = () => {
             >
               <CardContent>
                 <Typography
-                  variant="h5"
+                  variant="h4"
                   sx={{
                     m: 3,
-                    color: "#4154F1",
                     justifyContent: "center",
                     textAlign: "center",
                   }}
@@ -262,7 +385,7 @@ const LectureConfig = () => {
                 </Typography>
 
                 <Grid container>
-                  <Grid item xs={3} sx={{ ml: 2, mb: 2 }}>
+                  <Grid item xs={6} sx={{ ml: 2, mb: 2 }}>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         Intake
@@ -283,7 +406,7 @@ const LectureConfig = () => {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={3} sx={{ ml: 2, mb: 2 }}>
+                  {/* <Grid item xs={3} sx={{ ml: 2, mb: 2 }}>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         Semester
@@ -307,8 +430,9 @@ const LectureConfig = () => {
                         <MenuItem value={8}>8</MenuItem>
                       </Select>
                     </FormControl>
-                  </Grid>
-                  <Button
+                  </Grid> */}
+                  <LoadingButton
+                    loading={getDetailsLoading}
                     variant="contained"
                     sx={{
                       marginTop: 2,
@@ -322,7 +446,7 @@ const LectureConfig = () => {
                     onClick={handleGetDetails}
                   >
                     GET DETAILS
-                  </Button>
+                  </LoadingButton>
                 </Grid>
 
                 <Autocomplete
@@ -330,14 +454,16 @@ const LectureConfig = () => {
                   sx={{ ml: 2, mb: 2 }}
                   options={modules}
                   autoHighlight
-                  getOptionLabel={(option) => option.code + " - " + option.name}
+                  getOptionLabel={(option) =>
+                    option.moduleCode + " - " + option.moduleName
+                  }
                   renderOption={(props, option) => (
                     <Box
                       component="li"
                       sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                       {...props}
                     >
-                      {option.code}
+                      {option.moduleCode} - {option.moduleName}
                     </Box>
                   )}
                   renderInput={(params) => (
@@ -354,6 +480,11 @@ const LectureConfig = () => {
                       onChange={handleChangeModule}
                     />
                   )}
+                  onChange={(e, value) => {
+                    setModuleCode(value.moduleCode);
+                    setModuleName(value.moduleName);
+                    setCourseId(value.id);
+                  }}
                 />
 
                 <Autocomplete
@@ -386,11 +517,12 @@ const LectureConfig = () => {
                     />
                   )}
                   onChange={(e, value) => {
-                    setLecturer(value.name);
+                    setLecturer(value.id);
+                    setLecturerName(value.name);
                   }}
                 />
 
-                  <Autocomplete
+                <Autocomplete
                   id="module-select-demo"
                   sx={{ ml: 2, mb: 2 }}
                   options={halls}
@@ -419,6 +551,9 @@ const LectureConfig = () => {
                       onChange={handleChangeHall}
                     />
                   )}
+                  onChange={(e, value) => {
+                    setHall(value.id);
+                  }}
                 />
 
                 <Grid container>
@@ -439,7 +574,9 @@ const LectureConfig = () => {
                 </Grid>
 
                 {!disableProceed && (
-                  <Button
+                  <LoadingButton
+                    loading={proceedLoading}
+                    disabled={disableProceed}
                     variant="contained"
                     sx={{
                       marginTop: 2,
@@ -453,25 +590,8 @@ const LectureConfig = () => {
                     onClick={handleProceed}
                   >
                     PROCEED
-                  </Button>
+                  </LoadingButton>
                 )}
-
-                {/* {intakeError || semesterError || moduleError || lecturerError ? (
-                <ErrorSnackbar
-                  error={true}
-                  errorMessage="Please fill out required fields"
-                />
-              ) : null} */}
-                {validationError && (
-                  <ErrorSnackbar error={true} errorMessage={validationError} />
-                )}
-
-                <Snackbar
-                  open={showSnackbar}
-                  autoHideDuration={3000}
-                  onClose={handleCloseSnackbar}
-                  message="Lecture has been configured successfully."
-                />
               </CardContent>
             </Card>
           </Grid>
@@ -482,4 +602,3 @@ const LectureConfig = () => {
 };
 
 export default LectureConfig;
-

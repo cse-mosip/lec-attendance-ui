@@ -13,9 +13,9 @@ export default function StudentDisplay(props) {
     const location = useLocation();
 
     const fingerprintHandler = (fingerData) => {
-        markAttendance({...fingerData}).then(response => {
+        markAttendance({...fingerData, eventId:location.state.lectureId}).then(response => {
             console.log(response.json());
-            setStudentIndex(response.data.studentIndex);
+            setStudentIndex(response.data.index_number);
             setState('success');
             setTimeout(function(){
                 setState('idle');
