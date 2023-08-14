@@ -64,6 +64,7 @@ const LectureConfig = () => {
   }, []);
 
   const getHalls = async () => {
+
     try {
       const response = await getAllHalls();
       setHalls(response.data.data);

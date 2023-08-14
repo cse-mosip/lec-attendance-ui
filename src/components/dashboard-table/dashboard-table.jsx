@@ -17,8 +17,11 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Typography from '@mui/material/Typography';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import {useEffect, useState} from "react";
+import {currentLectureAttendance} from "../../services/DashboardServices";
 
 function TablePaginationActions(props) {
+    // console.log(lectureId)
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
 
@@ -83,26 +86,29 @@ function createData(studentName, studentId, arrivalTime) {
     return { studentName, studentId, arrivalTime };
 }
 
-const rows = [
-    createData('Banula Kumarage', '190331K', '7.30 am'),
-    createData('Pamudu Palinda', '190697A', '7.32 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-    createData('Nimantha Cooray', '190345K', '7.34 am'),
-];
-
 export default function CustomPaginationActionsTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(8);
+    const lectureId = localStorage.getItem("lectureId");
 
+    const [data, setData] = React.useState([]);
+
+    useEffect(() => {
+
+        const getCurrentAttendance = async() => {
+            const response = await currentLectureAttendance(lectureId);
+            console.log(response.data.data)
+            const temp = await response.data.data;
+            setData(temp);
+        }
+        getCurrentAttendance();
+    }, []);
+
+    const rows = [];
+
+    data.forEach((student)=>{
+        rows.push(createData(student.student_name, student.index_no, '7.30 am'))
+    })
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 

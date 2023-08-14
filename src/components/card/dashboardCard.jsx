@@ -7,8 +7,26 @@ import Chip from '@mui/joy/Chip';
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import {currentLectureDetails} from "../../services/DashboardServices";
+import {useEffect} from "react";
 
 export default function PricingCards() {
+
+    const [data, setData] = React.useState([]);
+
+    useEffect(() => {
+
+        const getCurrentLectureDetails = async() => {
+            const response = await currentLectureDetails();
+            const temp = await response.data.data[0];
+            setData(temp);
+            localStorage.setItem("lectureId", temp?.id)
+        }
+        getCurrentLectureDetails();
+    }, []);
+
+
+
     return (
         <Box
             sx={{
@@ -25,7 +43,7 @@ export default function PricingCards() {
                     ONGOING
                 </Chip>
                 <Typography level="h2" fontSize="xl2">
-                    Professional Practice | CS 3032
+                    {data?.course?.moduleName} | {data?.course?.moduleCode}
                 </Typography>
                 {/*<Typography level="h4" fontSize="xl1">*/}
                 {/*    CS 3032*/}
@@ -40,9 +58,9 @@ export default function PricingCards() {
                         Attendance
                     </Button>
                     <Typography level="h2" fontWeight="bold" sx={{ mr: 'auto' }} color="success">
-                        148{' '}
+                        {data?.attendance}{' '}
                         <Typography fontSize="sm" textColor="text.tertiary">
-                            / 160
+                            / {data?.expectedAttendance}
                         </Typography>
                     </Typography>
                 </CardActions>
