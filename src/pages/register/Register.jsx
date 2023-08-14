@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Box, Card, Button, Checkbox, Container, FormControlLabel, Grid, Radio, RadioGroup, TextField, Typography, InputLabel } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
   // State variables for form fields
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -54,10 +54,10 @@ const Login = () => {
                 alignItems: 'left',
                 gap: '20px',
                 padding: '40px', // Add padding here
-                height: '480px'
+                height: '450px'
               }}
             >
-              <Typography variant="h4">Sign In</Typography>
+              <Typography variant="h4">Register</Typography>
 
                 {/* User type selection */}
                 <Box sx={{ display: 'flex', gap: '10px' }}>
@@ -69,7 +69,7 @@ const Login = () => {
                       '& .MuiFormControlLabel-root': {
                         border: '0px solid',
                         borderRadius: '4px',
-                        padding: '5px 60px 5px 20px',
+                        padding: '10px 60px 10px 20px',
                         margin:'0px 50px 0px 0px'
                       },
                     }}
@@ -109,15 +109,8 @@ const Login = () => {
                   <Button variant="contained" sx={{backgroundColor: "#4154F1"}} type="submit">
                     Sign In
                   </Button>
-                  {/* Forgot password link */}
-
                   <Box sx={{ flexGrow: 1 }} />
-                <Box sx={{ alignSelf: 'flex-start' }}>
-                  <Button color="secondary">Forgot Password?</Button>
-                </Box>
-                  
-                </Box>
-<Box alignItems='center' sx={{ display: 'flex' }}>
+                  <Box alignItems='center' sx={{ display: 'flex' }}>
                   <Typography>
                     Don't have an account?
                   </Typography>
@@ -127,7 +120,12 @@ const Login = () => {
                   </Button> 
                   </Link>
                   </Box>
-                
+                </Box>
+
+                {/* Forgot password link */}
+                <Box sx={{ alignSelf: 'flex-start' }}>
+                  <Button color="secondary">Forgot Password?</Button>
+                </Box>
               </Box>
             </Card>
           </Grid>
@@ -137,4 +135,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
