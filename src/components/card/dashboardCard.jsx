@@ -43,7 +43,7 @@ export default function PricingCards() {
                     ONGOING
                 </Chip>
                 <Typography level="h2" fontSize="xl2">
-                    {data?.course?.moduleName} | {data?.course?.moduleCode}
+                    Professional Practice | CS 3032
                 </Typography>
                 {/*<Typography level="h4" fontSize="xl1">*/}
                 {/*    CS 3032*/}
@@ -58,9 +58,9 @@ export default function PricingCards() {
                         Attendance
                     </Button>
                     <Typography level="h2" fontWeight="bold" sx={{ mr: 'auto' }} color="success">
-                        {data?.attendance}{' '}
+                        148{' '}
                         <Typography fontSize="sm" textColor="text.tertiary">
-                            / {data?.expectedAttendance}
+                            / 160
                         </Typography>
                     </Typography>
                 </CardActions>
