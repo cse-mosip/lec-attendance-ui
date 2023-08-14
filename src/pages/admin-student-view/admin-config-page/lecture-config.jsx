@@ -245,6 +245,17 @@ const LectureConfig = () => {
                   title: "Success",
                   text: res.data.message,
                 });
+
+              // go to student view using the data recieved from post request
+              navigate("/student-view", {
+                state: {
+                  moduleCode:moduleCode,
+                  moduleName:moduleName,
+                  lecturer: lecturerName,
+                  lectureId:uniqueLecId,
+                },
+              });
+
               } else {
                 errorToast.fire({
                   icon: "error",
@@ -260,16 +271,6 @@ const LectureConfig = () => {
                 text: "Error starting the lecture",
               });
             }
-
-            // go to student view using the data recieved from post request
-            // navigate("/student-view", {
-            //   state: {
-            //     moduleCode,
-            //     moduleName,
-            //     lecturer: lecturerName,
-            //   },
-            // });
-
           } else {
             errorToast.fire({
               icon: "error",
