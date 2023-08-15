@@ -22,7 +22,7 @@ export default function StudentDisplay(props) {
             }, 2000);
             })
             .catch(error => {
-            setState('success');
+            setState('error');
             setTimeout(function(){
                 setState('idle');
             }, 2000);

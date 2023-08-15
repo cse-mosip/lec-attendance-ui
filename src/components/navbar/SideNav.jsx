@@ -66,7 +66,7 @@ const handleLogout = () => {
       return;
     }
     setTimeout(() => {
-      window.location.href = "/login";
+      window.location.href = "/frontend-service/lec-attendance-ui/login";
     }, 2000);
   });
 };
@@ -270,7 +270,7 @@ export default function MiniDrawer() {
           {["Attendance Sheet"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
-                onClick={() => (window.location.href = "/attendence-sheet")}
+                onClick={() => navigate("/attendance-sheet")}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -303,7 +303,7 @@ export default function MiniDrawer() {
           {["Dashboard"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
-                onClick={() => (window.location.href = "/")}
+                onClick={() => navigate("/")}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
