@@ -4,6 +4,7 @@ import React from "react";
 import {useEffect} from "react";
 import { getAllLectures } from "../../../services/LecturerServices";
 import { currentLectureDetails } from "../../../services/DashboardServices";
+import SideNav from "../../../components/navbar/SideNav"
 
 export default function Dashboard() {
 
@@ -39,6 +40,8 @@ export default function Dashboard() {
     }, []);
 
     return (
+        <>
+        <SideNav/>
         <div className="page-container" style={{marginLeft: '100px', marginTop: '50px'}}>
             <div className="content-wrap">
                 {flag &&
@@ -49,6 +52,7 @@ export default function Dashboard() {
                 }
             </div>
         </div>
+        </>
 
     )
 }

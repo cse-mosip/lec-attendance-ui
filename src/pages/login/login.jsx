@@ -43,7 +43,7 @@ const Login = () => {
       console.log(response);
 
       const data = response.data;
-      localStorage.setItem("AccessToken", data.access_token);
+      sessionStorage.setItem("AccessToken", data.access_token);
       if (data.user_type === "ADMIN") {
         navigate("/lecture-config", { state: data });
       } else {

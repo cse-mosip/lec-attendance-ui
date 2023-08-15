@@ -33,16 +33,6 @@ const login = async (data) => {
     return response;
 }
 
-// end lecture
-const endLecture = async () => {
-
-    const response = await axios({
-        method: "POST",
-        url: APIEndpoint + "/lecture/end-lecture",
-    })
-
-    return response;
-}
 
 // admin login
 const adminLogin = async (loginDetails) => {
