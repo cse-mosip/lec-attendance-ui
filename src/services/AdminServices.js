@@ -124,6 +124,20 @@ const createLecture = async (courseId, startTime, endTime, expectedAttendance, h
     return response;
 }
 
+// end lecture
+const endLecture = async (lectureId) => {
+
+    const response = await axios({
+        method: "GET",
+        url: APIEndpoint + `/lecture/end-lecture/${lectureId}`,
+        headers: {
+            'Access-Token': accessToken
+        }
+    })
+
+    return response;
+}
+
 export {
     configLectureDetails,
     endLecture,

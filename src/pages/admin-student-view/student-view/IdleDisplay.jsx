@@ -7,8 +7,24 @@ import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import socket from '../../../services/FingerScanSocket';
 import Button from '@mui/material/Button';
+import { endLecture } from '../../../services/AdminServices';
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { red } from '@mui/material/colors';
+import { color } from '@mui/system';
 
 export default function IdleDisplay(props) {
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        iconColor: "green",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 5000,
+      });
+
+    const navigate = useNavigate();
     useEffect(() => {
         // Listen for events
         socket.on('fingerprintData', (data) => {
@@ -19,6 +35,16 @@ export default function IdleDisplay(props) {
 
     const requestFingerPrint = () => {
         socket.emit("fingerprint", 3);
+    }
+
+    const endLec = () => {
+        endLecture(props.lectureId);
+        navigate("/lecture-config");
+        Toast.fire({
+            icon: "success",
+            title: "Success",
+            text: "Lecture Ended successfully",
+          });
     }
 
     return (
@@ -37,7 +63,10 @@ export default function IdleDisplay(props) {
                         <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             <Typography align="left" variant="h3" >Scan your fingerprint to mark your attendance</Typography> 
                         </Container>
-                        <Button variant="contained" sx={{my: 2}} onClick={requestFingerPrint}>Scan Fingerprint</Button>
+                        <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                            <Button variant="contained" sx={{my: 2, margin:1}} onClick={requestFingerPrint}>Scan Fingerprint</Button>
+                            <Button color="error" variant="contained" sx={{my: 2}} onClick={endLec}>endLecture</Button>
+                        </Container>
                     </CardContent>
                 </Card>
              </Grid>

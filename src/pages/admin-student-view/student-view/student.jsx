@@ -40,7 +40,7 @@ export default function StudentDisplay(props) {
     if (state === 'idle') {
         return (     
         <>
-            <IdleDisplay moduleCode={location.state.moduleCode} moduleName={location.state.moduleName} lecturer={location.state.lecturer} onScanHandler={fingerprintHandler}/>
+            <IdleDisplay moduleCode={location.state.moduleCode} moduleName={location.state.moduleName} lecturer={location.state.lecturer} lectureId={location.state.lectureId} onScanHandler={fingerprintHandler}/>
         </>       
         )
     } else if (state === 'success') {
