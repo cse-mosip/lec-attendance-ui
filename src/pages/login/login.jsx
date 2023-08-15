@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Box, Card, Button, Checkbox, Container, FormControlLabel, Grid, Radio, RadioGroup, TextField, Typography, InputLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { DOMAIN_NAME } from '../../config';
 const Login = () => {
   // State variables for form fields
   const [username, setUsername] = useState('');
@@ -9,7 +10,7 @@ const Login = () => {
   const [userType, setUserType] = useState('student');
 
   const navigate = useNavigate()
-  const APIEndpoint = process.env.REACT_APP_API_ENDPOINT + "/admin";
+  const APIEndpoint = DOMAIN_NAME + "/admin";
 
   // Function to handle form submission
   const handleSubmit = async (event) => {
