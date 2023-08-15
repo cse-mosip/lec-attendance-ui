@@ -20,17 +20,6 @@ const configLectureDetails = async (lectureId) => {
     return response;
 }
 
-// end lecture
-const endLecture = async () => {
-
-    const response = await axios({
-        method: "POST",
-        url: APIEndpoint + "/lecture/end-lecture",
-    })
-
-    return response;
-}
-
 // admin login
 const adminLogin = async (loginDetails) => {
 
@@ -107,6 +96,20 @@ const createLecture = async (courseId, startTime, endTime, expectedAttendance, h
             'Access-Token': accessToken
         }
     });
+
+    return response;
+}
+
+// end lecture
+const endLecture = async (lectureId) => {
+
+    const response = await axios({
+        method: "GET",
+        url: APIEndpoint + `/lecture/end-lecture/${lectureId}`,
+        headers: {
+            'Access-Token': accessToken
+        }
+    })
 
     return response;
 }
