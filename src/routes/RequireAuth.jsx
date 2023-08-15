@@ -13,7 +13,7 @@ function RequireAuth({ children, allowedRoles }) {
   }
 
   return user ? (
-    allowedRoles?.find((role) => user.role?.includes(role)) ? (
+    allowedRoles?.find((role) => user.user_type?.includes(role)) ? (
       children
     ) : (
       <Navigate to="unauthorized" state={{ from: location.pathname }} />

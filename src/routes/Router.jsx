@@ -12,26 +12,70 @@ import ProtectedRoute from "./ProtectedRoutes";
 import SharedLayout from "./SharedLayout";
 import Profile from "../pages/lecture-profile/LectureProfile";
 import Register from "../pages/register/Register";
+import RequireAuth from "../routes/RequireAuth";
 
 function Router() {
+  const ROLES = {
+    Admin: 1,
+    Lecturer: 2,
+  };
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/lecture-config" element={<LectureConfig />} />
-          <Route path="/attendence-sheet" element={<AttendenceSheet />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth allowedRoles={[ROLES.Lecturer]}>
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/lecture-config"
+            element={
+              <RequireAuth allowedRoles={[ROLES.Admin]}>
+                <LectureConfig />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/attendence-sheet"
+            element={
+              <RequireAuth allowedRoles={[ROLES.Admin, ROLES.Lecturer]}>
+                <AttendenceSheet />
+              </RequireAuth>
+            }
+          />
           <Route path="/student-view" element={<StudentDisplay />} />
-          <Route path="/lecture-info" element={<LectureInfoModal />} />
-          <Route path="/lecturer-profile" element={<Profile/>} />
-          <Route path="/" element={
-          <ProtectedRoute>
-            <SharedLayout/>
-          </ProtectedRoute>} >
-            <Route index element={<Dashboard/>}/>
-            <Route path="lecture-config" element={<LectureConfig />} />
-            <Route path="attendence-sheet" element={<AttendenceSheet />} />
-          </Route>
+          <Route
+            path="/lecture-info"
+            element={
+              <RequireAuth allowedRoles={[ROLES.Admin, ROLES.Lecturer]}>
+                <LectureInfoModal />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/lecturer-profile"
+            element={
+              <RequireAuth allowedRoles={[ROLES.Lecturer]}>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          {/* <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <SharedLayout />
+              </ProtectedRoute>
+            }
+          > */}
+            {/* <Route index element={<Dashboard />} /> */}
+            {/* <Route path="lecture-config" element={<LectureConfig />} /> */}
+            {/* <Route path="attendence-sheet" element={<AttendenceSheet />} /> */}
+          {/* </Route> */}
 
           {/* Invalid && prohibited routes  */}
           <Route path="*" element={<NotFound />}></Route>
