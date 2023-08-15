@@ -146,34 +146,7 @@ const Login = () => {
               >
                 <Typography variant="h4">Sign In</Typography>
 
-                {/* User type selection */}
-                <Box sx={{ display: "flex", gap: "10px" }}>
-                  <RadioGroup
-                    row
-                    value={userType}
-                    onChange={(e) => setUserType(e.target.value)}
-                    sx={{
-                      "& .MuiFormControlLabel-root": {
-                        border: "0px solid",
-                        borderRadius: "4px",
-                        padding: "10px 60px 10px 20px",
-                        margin: "0px 50px 0px 0px",
-                      },
-                    }}
-                  >
-                    <FormControlLabel
-                      value="admin"
-                      control={<Radio />}
-                      label="Admin"
-                    />
-                    <FormControlLabel
-                      value="teacher"
-                      control={<Radio />}
-                      label="Teacher"
-                    />
-                  </RadioGroup>
-                </Box>
-
+                
                 {/* Username field */}
                 <TextField
                   size="small"
@@ -225,9 +198,7 @@ const Login = () => {
                 <Box alignItems="center" sx={{ display: "flex" }}>
                   <Typography>Don't have an account?</Typography>
                   <Link to="/register">
-                    <Button variant="outlined" sx={{ marginLeft: "10px" }}>
-                      Register
-                    </Button>
+                  <Typography> Register</Typography>
                   </Link>
                 </Box>
               </Box>

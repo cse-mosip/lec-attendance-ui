@@ -161,9 +161,9 @@ const Register = () => {
                       label="Admin"
                     />
                     <FormControlLabel
-                      value="teacher"
+                      value="lecturer"
                       control={<Radio />}
-                      label="Teacher"
+                      label="Lecturer"
                     />
                   </RadioGroup>
                 </Box>
@@ -248,9 +248,7 @@ const Register = () => {
                   <Box alignItems="center" sx={{ display: "flex" }}>
                     <Typography>Already have an account?</Typography>
                     <Link to="/login">
-                      <Button variant="outlined" sx={{ marginLeft: "10px" }}>
-                        Sign in
-                      </Button>
+                        <Typography> Sign In</Typography>
                     </Link>
                   </Box>
                 </Box>
