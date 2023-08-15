@@ -48,7 +48,7 @@ const Login = () => {
 
       const data = await response.json();
       sessionStorage.setItem("AccessToken", data.access_token);
-      if (data.user_type === "ADMIN") {
+      if (data.user_id === 1) {
         navigate("/lecture-config", { state: data });
       } else {
         navigate("/", { state: data });
