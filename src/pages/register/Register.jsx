@@ -1,49 +1,19 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Box, Card, Button, Checkbox, Container, FormControlLabel, Grid, Radio, RadioGroup, TextField, Typography, InputLabel } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { DOMAIN_NAME } from '../../config';
-const Login = () => {
+
+const Register = () => {
   // State variables for form fields
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [userType, setUserType] = useState('student');
 
-  const navigate = useNavigate()
-  const APIEndpoint = DOMAIN_NAME + "/admin";
-
   // Function to handle form submission
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-  
-    try {
-        const response = await fetch(APIEndpoint + '/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                grant_type: 'password',
-                username: username,
-                password: password,
-                fingerprint: "data"
-            }),
-        });
-        
-        const data = await response.json();
-        sessionStorage.setItem("AccessToken",data.access_token)
-        if (data.user_type === 'ADMIN') {
-            navigate("/lecture-config",{state:data})
-        } else {
-          navigate("/",{state:data})
-        }
-
-    } catch (error) {
-        console.error("Error logging in:", error);
-    }
+    console.log(`Logging in as a ${userType} with username: ${username} and password: ${password}`);
   };
-
   
   return (
     <>
@@ -84,10 +54,10 @@ const Login = () => {
                 alignItems: 'left',
                 gap: '20px',
                 padding: '40px', // Add padding here
-                height: '480px'
+                height: '450px'
               }}
             >
-              <Typography variant="h4">Sign In</Typography>
+              <Typography variant="h4">Register</Typography>
 
                 {/* User type selection */}
                 <Box sx={{ display: 'flex', gap: '10px' }}>
@@ -139,15 +109,8 @@ const Login = () => {
                   <Button variant="contained" sx={{backgroundColor: "#4154F1"}} type="submit">
                     Sign In
                   </Button>
-                  {/* Forgot password link */}
-
                   <Box sx={{ flexGrow: 1 }} />
-                <Box sx={{ alignSelf: 'flex-start' }}>
-                  <Button color="secondary">Forgot Password?</Button>
-                </Box>
-                  
-                </Box>
-<Box alignItems='center' sx={{ display: 'flex' }}>
+                  <Box alignItems='center' sx={{ display: 'flex' }}>
                   <Typography>
                     Don't have an account?
                   </Typography>
@@ -157,7 +120,12 @@ const Login = () => {
                   </Button> 
                   </Link>
                   </Box>
-                
+                </Box>
+
+                {/* Forgot password link */}
+                <Box sx={{ alignSelf: 'flex-start' }}>
+                  <Button color="secondary">Forgot Password?</Button>
+                </Box>
               </Box>
             </Card>
           </Grid>
@@ -167,4 +135,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

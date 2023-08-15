@@ -11,6 +11,7 @@ import LectureInfoModal from "../components/modals/lecture-info/lecture-info-mod
 import ProtectedRoute from "./ProtectedRoutes";
 import SharedLayout from "./SharedLayout";
 import Profile from "../pages/lecture-profile/LectureProfile";
+import Register from "../pages/register/Register";
 
 function Router() {
   return (
@@ -35,6 +36,7 @@ function Router() {
           {/* Invalid && prohibited routes  */}
           <Route path="*" element={<NotFound />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
         </Routes>
       </BrowserRouter>
     </>
