@@ -6,15 +6,20 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import socket from '../../../services/FingerScanSocket';
+import Button from '@mui/material/Button';
 
 export default function IdleDisplay(props) {
     useEffect(() => {
         // Listen for events
-        socket.on('message', (data) => {
+        socket.on('fingerprintData', (data) => {
           console.log('Received data:', data);
           props.onScanHandler(data);
         });
     });
+
+    const requestFingerPrint = () => {
+        socket.emit("fingerprint", 3);
+    }
 
     return (
         <>
@@ -32,6 +37,7 @@ export default function IdleDisplay(props) {
                         <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             <Typography align="left" variant="h3" >Scan your fingerprint to mark your attendance</Typography> 
                         </Container>
+                        <Button variant="contained" sx={{my: 2}} onClick={requestFingerPrint}>Scan Fingerprint</Button>
                     </CardContent>
                 </Card>
              </Grid>
@@ -39,4 +45,3 @@ export default function IdleDisplay(props) {
         </>
     )
 }
-// 4154f1 blue
