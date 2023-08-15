@@ -89,12 +89,12 @@ function createData(studentName, studentId, arrivalTime) {
 export default function CustomPaginationActionsTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(8);
-    const lectureId = localStorage.getItem("lectureId");
-
+    
     const [data, setData] = React.useState([]);
 
     useEffect(() => {
 
+        const lectureId = localStorage.getItem("lectureId");
         const getCurrentAttendance = async() => {
             if (lectureId !== "undefined") {
                 const response = await currentLectureAttendance(lectureId);

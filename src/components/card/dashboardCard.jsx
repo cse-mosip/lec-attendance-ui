@@ -11,32 +11,43 @@ import {currentLectureDetails} from "../../services/DashboardServices";
 import {useEffect} from "react";
 import { getAllLectures } from '../../services/LecturerServices';
 
-export default function PricingCards() {
+export default function PricingCards(props) {
 
-    const [data, setData] = React.useState([]);
-    const [cardTitle, setCardTitle] = React.useState([]);
+    const [data, setData] = React.useState(props.data);
+    const [cardTitle, setCardTitle] = React.useState(props.cardTitle);
 
-    useEffect(() => {
 
-        const getCurrentLectureDetails = async() => {
+    useEffect (()=>{
+        setData(props.data);
+    },[props.data])
 
-            const response = await currentLectureDetails();
-            const temp = await response.data.data[0];
-            if (response.data.data.length > 0) {
-                console.log("tetete", response)
-                setData(temp);
-                setCardTitle("ONGOING")
-                localStorage.setItem("lectureId", temp?.id)
-            } else {
-                const response_ = await getAllLectures()
-                const temp_ = await response_.data.data[0];
-                setData(temp_);
-                setCardTitle("LATEST")
-                localStorage.setItem("lectureId", temp_?.id)
-            }
-        }
-        getCurrentLectureDetails();
-    }, []);
+    useEffect (()=>{
+        setCardTitle(props.cardTitle);
+    },[props.cardTitle])
+
+    // useEffect(() => {
+
+    //     const getCurrentLectureDetails = async () => {
+    //         console.log("IM HERE");
+    //         const response = await currentLectureDetails();
+    //         const temp = response.data.data[0];
+    //         if (response.data.data.length > 0) {
+    //             // console.log("tetete", response)
+    //             setData(temp);
+    //             console.log(temp)
+    //             setCardTitle("ONGOING")
+    //             localStorage.setItem("lectureId", temp?.id)
+    //             console.log("SET LECT ID")
+    //         } else {
+    //             const response_ = await getAllLectures()
+    //             const temp_ = await response_.data.data[0];
+    //             setData(temp_);
+    //             setCardTitle("LATEST")
+    //             localStorage.setItem("lectureId", temp_?.id)
+    //         }
+    //     }
+    //     getCurrentLectureDetails();
+    // }, []);
 
 
 
