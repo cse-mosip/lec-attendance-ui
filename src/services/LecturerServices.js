@@ -2,7 +2,7 @@ import axios from "axios";
 import { DOMAIN_NAME } from "../config.js"
 
 const APIEndpoint = DOMAIN_NAME+ "/admin";
-const accessToken = localStorage.getItem("AccessToken")
+const accessToken = sessionStorage.getItem("AccessToken")
 
 const getAllLectures = async() => {
 

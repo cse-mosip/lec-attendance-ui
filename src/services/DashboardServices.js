@@ -2,10 +2,10 @@ import axios from "axios";
 import { DOMAIN_NAME } from "../config.js"
 
 const APIEndpoint = DOMAIN_NAME+ "/admin";
-const accessToken = localStorage.getItem("AccessToken")
+const accessToken = sessionStorage.getItem("AccessToken")
 
 const currentLectureDetails = async() => {
-    const accessToken = localStorage.getItem("AccessToken")
+    const accessToken = sessionStorage.getItem("AccessToken")
 
     const response = await axios ({
         method : "GET",
@@ -19,7 +19,7 @@ const currentLectureDetails = async() => {
 }
 
 const currentLectureAttendance = async(lectureId) => {
-    const accessToken = localStorage.getItem("AccessToken")
+    const accessToken = sessionStorage.getItem("AccessToken")
     const response = await axios ({
         method : "GET",
         url : APIEndpoint + `/lecture-attendance/lecture/${lectureId}`,
