@@ -9,18 +9,31 @@ import Typography from '@mui/joy/Typography';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import {currentLectureDetails} from "../../services/DashboardServices";
 import {useEffect} from "react";
+import { getAllLectures } from '../../services/LecturerServices';
 
 export default function PricingCards() {
 
     const [data, setData] = React.useState([]);
+    const [cardTitle, setCardTitle] = React.useState([]);
 
     useEffect(() => {
 
         const getCurrentLectureDetails = async() => {
+
             const response = await currentLectureDetails();
             const temp = await response.data.data[0];
-            setData(temp);
-            localStorage.setItem("lectureId", temp?.id)
+            if (response.data.data.length > 0) {
+                console.log("tetete", response)
+                setData(temp);
+                setCardTitle("ONGOING")
+                localStorage.setItem("lectureId", temp?.id)
+            } else {
+                const response_ = await getAllLectures()
+                const temp_ = await response_.data.data[0];
+                setData(temp_);
+                setCardTitle("LATEST")
+                localStorage.setItem("lectureId", temp_?.id)
+            }
         }
         getCurrentLectureDetails();
     }, []);
@@ -40,7 +53,7 @@ export default function PricingCards() {
         >
             <Card size="md" variant="outlined">
                 <Chip size="sm" variant="outlined" color="success">
-                    ONGOING
+                    { cardTitle }
                 </Chip>
                 <Typography level="h2" fontSize="xl2">
                     {data?.course?.moduleName} | {data?.course?.moduleCode}

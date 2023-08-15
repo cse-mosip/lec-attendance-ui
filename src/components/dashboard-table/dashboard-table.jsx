@@ -96,19 +96,24 @@ export default function CustomPaginationActionsTable() {
     useEffect(() => {
 
         const getCurrentAttendance = async() => {
-            const response = await currentLectureAttendance(lectureId);
-            console.log(response.data.data)
-            const temp = await response.data.data;
-            setData(temp);
+            if (lectureId !== "undefined") {
+                const response = await currentLectureAttendance(lectureId);
+                const temp = await response.data.data;
+                setData(temp);
+            }
         }
         getCurrentAttendance();
     }, []);
 
     const rows = [];
-
-    data.forEach((student)=>{
-        rows.push(createData(student.student_name, student.index_no, '7.30 am'))
-    })
+    
+    if (data.length > 0) {
+        data.forEach((student)=>{
+            if (student.is_present) {
+                rows.push(createData(student.student_name, student.index_no, student?.arrival_time))
+            }
+        })
+    }
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
