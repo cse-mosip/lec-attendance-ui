@@ -1,8 +1,6 @@
 import io from 'socket.io-client';
+import { FINGERPRINT_SCANNER_URL } from "../config.js";
 
-// const FingerPrintScanner = process.env.FINGERPRINT_APP_API_ENDPOINT;
-const FingerPrintScanner = 'http://localhost:4000';
-
-const socket = io(FingerPrintScanner);
+const socket = io(FINGERPRINT_SCANNER_URL);
 
 export default socket;
