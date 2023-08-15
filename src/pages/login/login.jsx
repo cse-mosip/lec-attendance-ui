@@ -18,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { DOMAIN_NAME } from '../../config';
+import { login } from "../../services/AdminServices";
 const Login = () => {
   // State variables for form fields
   const [username, setUsername] = useState("");
@@ -26,28 +27,23 @@ const Login = () => {
   const [userType, setUserType] = useState("student");
 
   const navigate = useNavigate();
-  const APIEndpoint = DOMAIN_NAME + "/admin";
 
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch(APIEndpoint + "/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          grant_type: "password",
-          username: username,
-          password: password,
-          fingerprint: "data",
-        }),
-      });
 
-      const data = await response.json();
-      sessionStorage.setItem("AccessToken", data.access_token);
+      const  response =  await login({
+        grant_type: "password",
+        username: username,
+        password: password,
+        fingerprint: "data",
+      });
+      console.log(response);
+
+      const data = response.data;
+      localStorage.setItem("AccessToken", data.access_token);
       if (data.user_type === "ADMIN") {
         navigate("/lecture-config", { state: data });
       } else {

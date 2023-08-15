@@ -1,5 +1,6 @@
 import axios from "axios";
 import { DOMAIN_NAME } from "../config.js"
+import { async } from "q";
 
 
 const APIEndpoint = DOMAIN_NAME + "/admin";
@@ -16,6 +17,18 @@ const configLectureDetails = async (lectureId) => {
             'Access-Token': accessToken
         }
     })
+
+    return response;
+}
+
+const login = async (data) => {
+    const response = await axios(
+        {
+            method:"POST",
+            url: APIEndpoint+"/login",
+            data: data
+        }
+    )
 
     return response;
 }
@@ -119,4 +132,5 @@ export {
     getModules,
     getAllLecturers,
     createLecture,
+    login
 };
