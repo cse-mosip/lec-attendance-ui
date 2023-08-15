@@ -104,7 +104,7 @@ function AttendanceSheet() {
 
 
         // TODO: need to add a request handler to get all the lectres conducted by this lecturer
-        
+
     }
 
     // const handleRowClick = (index) => {
@@ -114,120 +114,120 @@ function AttendanceSheet() {
 
     return (
         <>
-        <SideNav/>
-        <Container style={{marginTop: '150px'}}>
-            <Typography variant='h3'>Attendance</Typography>
+            <SideNav/>
+            <Container style={{marginTop: '150px'}}>
+                <Typography variant='h3'>Attendance</Typography>
 
-            <div style={{ marginBottom: '1rem', position: 'fixed', top: '0', left: "0", paddingTop: '5rem', paddingBottom: '0.25rem', overflow: 'hidden', backgroundColor: '#ffffffee', width: "100%" }}>
-                <div style={{ display: 'flex', justifyContent: 'center', margin: "0 10% 0 10%" }}>
-                    <TextField
-                        label="Module Code"
-                        name="moduleCode"
-                        value={filters.moduleCode}
-                        onChange={handleFilterChange}
-                        size='small'
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton onClick={clearFilters}>
-                                        <SearchIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                        style={{
-                            margin: "0 1rem 0 1rem",
-                            border: "0px solid #ccc",
-                            borderRadius: 4,
-                        }}
-                    />
-                    <TextField
-                        label="Module Name"
-                        name="moduleName"
-                        value={filters.moduleName}
-                        onChange={handleFilterChange}
-                        size='small'
-                        style={{
-                            margin: "0 1rem 0 1rem",
-                            border: "0px solid #ccc",
-                            borderRadius: 4,
-                        }}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton onClick={clearFilters}>
-                                        <SearchIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <TextField
-                        label="Date"
-                        name="date"
-                        value={filters.date}
-                        onChange={handleFilterChange}
-                        size='small'
-                        style={{
-                            margin: "0 1rem 0 1rem",
-                            border: "0px solid #ccc",
-                            borderRadius: 4,
-                        }}
-                    />
+                <div style={{ marginBottom: '1rem', position: 'fixed', top: '0', left: "0", paddingTop: '5rem', paddingBottom: '0.25rem', overflow: 'hidden', backgroundColor: '#ffffffee', width: "100%" }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', margin: "0 10% 0 10%" }}>
+                        <TextField
+                            label="Module Code"
+                            name="moduleCode"
+                            value={filters.moduleCode}
+                            onChange={handleFilterChange}
+                            size='small'
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={clearFilters}>
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            style={{
+                                margin: "0 1rem 0 1rem",
+                                border: "0px solid #ccc",
+                                borderRadius: 4,
+                            }}
+                        />
+                        <TextField
+                            label="Module Name"
+                            name="moduleName"
+                            value={filters.moduleName}
+                            onChange={handleFilterChange}
+                            size='small'
+                            style={{
+                                margin: "0 1rem 0 1rem",
+                                border: "0px solid #ccc",
+                                borderRadius: 4,
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={clearFilters}>
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <TextField
+                            label="Date"
+                            name="date"
+                            value={filters.date}
+                            onChange={handleFilterChange}
+                            size='small'
+                            style={{
+                                margin: "0 1rem 0 1rem",
+                                border: "0px solid #ccc",
+                                borderRadius: 4,
+                            }}
+                        />
+                    </div>
                 </div>
-            </div>
-            <div style={{width: '100%'}}>
-
-            
-            <TableContainer component={Paper} style={
-                {
-                    borderRadius: "10px",
-                    marginTop: '4.5rem',
-                    boxShadow: '-0.5px 0.5px 10px'
-            
-            }
-            }>
-                <Table style={{
-                    width: "100%"
-                }}>
-                    <TableHead>
-                        <TableRow >
-                            <StyledTableCell >Module Code</StyledTableCell >
-                            <StyledTableCell >Module Name</StyledTableCell >
-                            <StyledTableCell >Hall</StyledTableCell >
-                            <StyledTableCell >Date</StyledTableCell >
-                            <StyledTableCell >Start Time</StyledTableCell >
-                            <StyledTableCell >End Time</StyledTableCell >
-                            <StyledTableCell >Attendance</StyledTableCell >
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {filteredData.map((entry, index) => (
-                            <StyledTableRow
-                                key={entry["lec id"]}
-                                component={Link}
-                                to={`/details/${entry["module code"]}`}
-                                style={{ textDecoration: 'none', cursor: 'pointer' }}
-                                onClick={() => showModal(entry)}
-                            >
-                                <StyledTableCell >{entry["module code"]}</StyledTableCell >
-                                <StyledTableCell >{entry["module name"]}</StyledTableCell >
-                                <StyledTableCell >{entry["hall"]}</StyledTableCell >
-                                <StyledTableCell >{entry["date"]}</StyledTableCell >
-                                <StyledTableCell >{entry["start-time"]}</StyledTableCell >
-                                <StyledTableCell >{entry["end-time"]}</StyledTableCell >
-                                <StyledTableCell >{entry["Attendance"]}</StyledTableCell >
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                <div style={{width: '100%'}}>
 
 
-            </div>
-            
-        </Container>
-        <LectureInfoModal show={show} setShow={(bool) => setShow(bool)} lectureData={selectedEntry}/>
+                    <TableContainer component={Paper} style={
+                        {
+                            borderRadius: "10px",
+                            marginTop: '4.5rem',
+                            boxShadow: '-0.5px 0.5px 10px'
+
+                        }
+                    }>
+                        <Table style={{
+                            width: "100%"
+                        }}>
+                            <TableHead>
+                                <TableRow >
+                                    <StyledTableCell >Module Code</StyledTableCell >
+                                    <StyledTableCell >Module Name</StyledTableCell >
+                                    <StyledTableCell >Hall</StyledTableCell >
+                                    <StyledTableCell >Date</StyledTableCell >
+                                    <StyledTableCell >Start Time</StyledTableCell >
+                                    <StyledTableCell >End Time</StyledTableCell >
+                                    <StyledTableCell >Attendance</StyledTableCell >
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {filteredData.map((entry, index) => (
+                                    <StyledTableRow
+                                        key={entry["lec id"]}
+                                        component={Link}
+                                        to={`/details/${entry["module code"]}`}
+                                        style={{ textDecoration: 'none', cursor: 'pointer' }}
+                                        onClick={() => showModal(entry)}
+                                    >
+                                        <StyledTableCell >{entry["module code"]}</StyledTableCell >
+                                        <StyledTableCell >{entry["module name"]}</StyledTableCell >
+                                        <StyledTableCell >{entry["hall"]}</StyledTableCell >
+                                        <StyledTableCell >{entry["date"]}</StyledTableCell >
+                                        <StyledTableCell >{entry["start-time"]}</StyledTableCell >
+                                        <StyledTableCell >{entry["end-time"]}</StyledTableCell >
+                                        <StyledTableCell >{entry["Attendance"]}</StyledTableCell >
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+
+                </div>
+
+            </Container>
+            <LectureInfoModal show={show} setShow={(bool) => setShow(bool)} lectureData={selectedEntry}/>
         </>
     );
 }
