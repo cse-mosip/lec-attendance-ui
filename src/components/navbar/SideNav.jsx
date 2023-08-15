@@ -206,7 +206,7 @@ export default function MiniDrawer() {
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
-                    alt="Remy Sharp"
+                    alt="Lecture User 1"
                     src="Thinira"
                     sx={{ width: 45, height: 45 }}
                   />
@@ -236,7 +236,7 @@ export default function MiniDrawer() {
                   }}
                 >
                   <Typography sx={{ color: "#ffffff" }}>
-                    Thinira Wanasinghe
+                    Lecture User 1
                   </Typography>
                 </Box>
                 <Box sx={{ marginTop: "2px", borderTop: "1px solid #899BBD" }}>

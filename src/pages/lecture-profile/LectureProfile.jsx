@@ -30,8 +30,8 @@ const Profile = () => {
   const [isPasswordChanged, setIsPasswordChanged] = useState(null);
 
   const lecturer = {
-    name: "Surangika Ranathunga",
-    email: "surangika.19@cse.mrt.ac.lk",
+    name: "Lecture User 1",
+    email: "lecture1@mosip.com",
     designation: "Senior lecturer",
     modules: [
       { id: "1", name: "Object oriented programming", code: "cs1033" },
