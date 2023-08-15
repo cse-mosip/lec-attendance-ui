@@ -3,6 +3,7 @@ import { DOMAIN_NAME } from "../config.js"
 
 const APIEndpoint = DOMAIN_NAME+ "/admin";
 const accessToken = sessionStorage.getItem("AccessToken")
+
 const currentLectureDetails = async() => {
 
     const response = await axios ({
