@@ -7,8 +7,26 @@ import Chip from '@mui/joy/Chip';
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import {currentLectureDetails} from "../../services/DashboardServices";
+import {useEffect} from "react";
 
 export default function PricingCards() {
+
+    const [data, setData] = React.useState([]);
+
+    useEffect(() => {
+
+        const getCurrentLectureDetails = async() => {
+            const response = await currentLectureDetails();
+            const temp = await response.data.data[0];
+            setData(temp);
+            localStorage.setItem("lectureId", temp?.id)
+        }
+        getCurrentLectureDetails();
+    }, []);
+
+
+
     return (
         <Box
             sx={{

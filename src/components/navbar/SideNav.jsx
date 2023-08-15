@@ -25,8 +25,8 @@ import Menu from "@mui/material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from '@mui/icons-material/Settings';
-import Swal from 'sweetalert2'
+import SettingsIcon from "@mui/icons-material/Settings";
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Dashboard from "../../pages/lecturer-view/dashboard/Dashboard";
@@ -40,35 +40,35 @@ const settings = ["Profile"];
 
 const Toast = Swal.mixin({
   toast: true,
-  position: 'bottom-end',
-  iconColor: 'green',
+  position: "bottom-end",
+  iconColor: "green",
   showConfirmButton: false,
-  timerProgressBar: true
-})
+  timerProgressBar: true,
+});
 
 const handleLogout = () => {
   Swal.fire({
-    title: 'Are you sure?',
+    title: "Are you sure?",
     text: "Are you sure you want to logout?",
-    icon: 'warning',
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Yes, Logout!'
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, Logout!",
   }).then((result) => {
     if (result.isConfirmed) {
       Toast.fire({
-        icon: 'success',
-        title: 'Success',
-        text: 'Logout Successful',
-      })
-    } else{
+        icon: "success",
+        title: "Success",
+        text: "Logout Successful",
+      });
+    } else {
       return;
     }
     setTimeout(() => {
       window.location.href = "/login";
     }, 2000);
-  })
+  });
 };
 
 const openedMixin = (theme) => ({
@@ -144,6 +144,8 @@ export default function MiniDrawer() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const navigate = useNavigate();
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -158,6 +160,11 @@ export default function MiniDrawer() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleUserProfile = (setting) => {
+    handleCloseUserMenu();
+    if (setting === "Profile") navigate("/lecturer-profile");
   };
 
   return (
@@ -234,7 +241,10 @@ export default function MiniDrawer() {
                 </Box>
                 <Box sx={{ marginTop: "2px", borderTop: "1px solid #899BBD" }}>
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <MenuItem
+                      key={setting}
+                      onClick={() => handleUserProfile(setting)}
+                    >
                       <Typography textAlign="center">{setting}</Typography>
                     </MenuItem>
                   ))}
@@ -260,7 +270,7 @@ export default function MiniDrawer() {
           {["Attendance Sheet"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
-              onClick={() => window.location.href = "/attendence-sheet"}
+                onClick={() => (window.location.href = "/attendence-sheet")}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -276,7 +286,8 @@ export default function MiniDrawer() {
                   }}
                 >
                   {text.toLowerCase() == "attendance sheet" ? (
-                  <PeopleIcon/>) : null}
+                    <PeopleIcon />
+                  ) : null}
                 </ListItemIcon>
                 <ListItemText
                   primary={text}
@@ -287,53 +298,56 @@ export default function MiniDrawer() {
           ))}
         </List>
         <Divider />
-        <List >
+        <List>
           <Typography sx={{ color: "#899BBD", ml: 1 }}>Analyze</Typography>
           {["Dashboard"].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }} >
-                <ListItemButton
-                
-                onClick={() => window.location.href = "/"}
+            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                onClick={() => (window.location.href = "/")}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  color: iconColor,
+                  //   backgroundColor: "#F0F4FB",
+                }}
+              >
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                     color: iconColor,
-                    //   backgroundColor: "#F0F4FB",
                   }}
-
-                  
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      color: iconColor,
-                    }}
-                  >
-                    {text.toLowerCase() === "dashboard" ? (
-                      <DashboardIcon />
-                    ) : null}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            )
-
-          )}
+                  {text.toLowerCase() === "dashboard" ? (
+                    <DashboardIcon />
+                  ) : null}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
 
-        <List style={
-                    {
-                      height: "100%"
-                    }
-                  }>
+        <List
+          style={{
+            height: "100%",
+          }}
+        >
           {["Logout"].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" , float: "bottom", position: "absolute", bottom: "0"}} >
-                {(text.toLowerCase() == "logout" && !isLoggedIn) ? null :
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{
+                display: "block",
+                float: "bottom",
+                position: "absolute",
+                bottom: "0",
+              }}
+            >
+              {text.toLowerCase() == "logout" && !isLoggedIn ? null : (
                 <ListItemButton
-                
                   onClick={handleLogout}
                   sx={{
                     minHeight: 48,
@@ -342,8 +356,6 @@ export default function MiniDrawer() {
                     color: iconColor,
                     //   backgroundColor: "#F0F4FB",
                   }}
-
-                  
                 >
                   <ListItemIcon
                     sx={{
@@ -353,22 +365,15 @@ export default function MiniDrawer() {
                       color: iconColor,
                     }}
                   >
-                    {text.toLowerCase() === "logout" ? (
-                      <LogoutIcon 
-                      />
-                    ) : null}
+                    {text.toLowerCase() === "logout" ? <LogoutIcon /> : null}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
-                }
-              </ListItem>
-            )
-
-          )}
+              )}
+            </ListItem>
+          ))}
         </List>
       </Drawer>
-
-      
     </Box>
   );
 }
