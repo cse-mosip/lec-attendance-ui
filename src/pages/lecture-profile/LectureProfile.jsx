@@ -24,25 +24,25 @@ import Token from "../../services/Token";
 import { getAllLectures } from "../../services/LecturerServices";
 import { getAllLecturers } from "../../services/AdminServices";
 
-var user = Token.getAuth();
+// var user = Token.getAuth();
 
-const response = await getAllLecturers();
-const allLecturers = response.data.data;
+// const response = await getAllLecturers();
+// const allLecturers = response.data.data;
 
-const currentUser = allLecturers.filter(lecturer => lecturer.id === parseInt(user.sub))[0];
+// const currentUser = allLecturers.filter(lecturer => lecturer.id === parseInt(user.sub))[0];
 
-const responseLectures = await getAllLectures()
-const conductingLectures = responseLectures.data.data;
+// const responseLectures = await getAllLectures()
+// const conductingLectures = responseLectures.data.data;
 
-const _conductingLecs = []
+// const _conductingLecs = []
 
-conductingLectures.forEach(lecture => {
-  if(!_conductingLecs.includes(lecture.course.moduleName)){
-    _conductingLecs.push({id : lecture.course.id, name: lecture.course.moduleName, code: lecture.course.moduleCode});
-  }
-});
+// conductingLectures.forEach(lecture => {
+//   if(!_conductingLecs.includes(lecture.course.moduleName)){
+//     _conductingLecs.push({id : lecture.course.id, name: lecture.course.moduleName, code: lecture.course.moduleCode});
+//   }
+// });
 
-console.log("User : ", _conductingLecs);
+// console.log("User : ", _conductingLecs);
 
 const Profile = () => {
   const [passwords, setPasswords] = useState({
@@ -53,10 +53,15 @@ const Profile = () => {
   const [isPasswordChanged, setIsPasswordChanged] = useState(null);
 
   const lecturer = {
-    name: currentUser.name,
-    email: currentUser.email,
-    designation: user.designation,
-    modules: _conductingLecs,
+    name: "Lecture User 1",
+    email: "lecture1@mosip.com",
+    designation: "Senior lecturer",
+    modules: [
+      { id: "1", name: "Object oriented programming", code: "cs1033" },
+      { id: "2", name: "Object Oriented Software Development", code: "cs1024" },
+      { id: "3", name: "Deep learning", code: "cs1024" },
+      // Add more modules as needed
+    ],
   };
 
   const handleChangePassword = () => {
