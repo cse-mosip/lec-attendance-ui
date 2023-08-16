@@ -65,7 +65,7 @@ export default function IdleDisplay(props) {
                         </Container>
                         <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             <Button variant="contained" sx={{my: 2, margin:1}} onClick={requestFingerPrint}>Scan Fingerprint</Button>
-                            <Button color="error" variant="contained" sx={{my: 2}} onClick={endLec}>endLecture</Button>
+                            <Button color="error" variant="contained" sx={{my: 2}} onClick={endLec}>End Lecture</Button>
                         </Container>
                     </CardContent>
                 </Card>
