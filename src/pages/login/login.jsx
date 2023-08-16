@@ -115,7 +115,7 @@ const Login = () => {
             }}
           >
             <Container style={{ width: "80%", padding: "20px" }}>
-              <Typography variant="h2" align="center" sx={{ color: "#FFFFFF" , fontWeight: "bold", textShadow: "30px #000000"}}>
+              <Typography variant="h2" align="center" sx={{ color: "#FFFFFF" , fontWeight: "bold"}}>
                 Student Attendance Management System
               </Typography>
               <br />
