@@ -13,7 +13,7 @@ export default function StudentDisplay(props) {
     const location = useLocation();
 
     const fingerprintHandler = (fingerData) => {
-        markAttendance({...fingerData, eventId:location.state.lectureId}).then(response => {
+        markAttendance({fingerprint:{bioSubType:fingerData['1']['bioSubType'], buffer:{type:'Buffer', data:fingerData['1']['buffer']}}, eventId:location.state.lectureId}).then(response => {
             console.log(response.json());
             setStudentIndex(response.data.index_number);
             setState('success');
@@ -22,7 +22,8 @@ export default function StudentDisplay(props) {
             }, 2000);
             })
             .catch(error => {
-            setState('success');
+            console.log(error);
+            setState('error');
             setTimeout(function(){
                 setState('idle');
             }, 2000);

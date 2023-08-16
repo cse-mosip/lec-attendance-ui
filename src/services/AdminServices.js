@@ -33,6 +33,18 @@ const login = async (data) => {
     return response;
 }
 
+const register = async (data) => {
+    const response = await axios(
+        {
+            method:"POST",
+            url: APIEndpoint+"/register",
+            data: data
+        }
+    )
+
+    return response;
+}
+
 
 // admin login
 const adminLogin = async (loginDetails) => {
@@ -136,5 +148,6 @@ export {
     getModules,
     getAllLecturers,
     createLecture,
-    login
+    login,
+    register
 };

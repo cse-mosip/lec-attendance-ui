@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { DOMAIN_NAME } from '../../config';
 import { login } from "../../services/AdminServices";
+import {styled} from "@mui/system";
 const Login = () => {
   // State variables for form fields
   const [username, setUsername] = useState("");
@@ -40,7 +41,6 @@ const Login = () => {
         password: password,
         fingerprint: "data",
       });
-      console.log(response);
 
       const data = response.data;
       sessionStorage.setItem("AccessToken", data.access_token);
@@ -54,11 +54,18 @@ const Login = () => {
     }
   };
 
+    const Logo = styled('img')({
+        height: '50px',
+        marginRight: '16px',
+    });
+
   return (
     <>
+
       {/* AppBar for the application name */}
       <AppBar position="static" sx={{ backgroundColor: "white" }}>
         <Toolbar>
+            <Logo src={`/frontend-service/lec-attendance-ui/images/logo.png`} alt="logo" />
           <Typography
             variant="h5"
             component="div"
@@ -69,7 +76,7 @@ const Login = () => {
               fontWeight: "bold",
             }}
           >
-            MOSIP
+            University of Moratuwa
           </Typography>
         </Toolbar>
       </AppBar>
@@ -83,6 +90,15 @@ const Login = () => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#F0F4FB",
+            top: "60px",
+            left: 0,
+            width: "100%",
+            backgroundImage: `url(/frontend-service/lec-attendance-ui/images/uom3.jpg)`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            zIndex: -1,
+
         }}
       >
         <Grid container>
@@ -91,17 +107,18 @@ const Login = () => {
             item
             xs={6}
             style={{
+                // backgroundColor: "rgba(255, 255, 255, 0.9)",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             <Container style={{ width: "80%", padding: "20px" }}>
-              <Typography variant="h2" align="center">
+              <Typography variant="h2" align="center" sx={{ color: "#FFFFFF" , fontWeight: "bold"}}>
                 Student Attendance Management System
               </Typography>
               <br />
-              <Typography variant="span" align="left" sx={{ color: "#757F8E" }}>
+              <Typography variant="span" align="left" sx={{ color: "rgba(255,255,255,0.8)" }}>
                 Welcome to our Student Attendance Management System, a
                 lecturer-focused platform for efficient attendance tracking.
                 Built on the robust MOSIP platform, our system uses biometric
@@ -126,7 +143,7 @@ const Login = () => {
               style={{
                 width: "70%",
                 padding: "20px",
-                backgroundColor: "white",
+                backgroundColor: "rgba(255, 255, 255, 0.9)"
               }}
             >
               <Box
@@ -202,6 +219,7 @@ const Login = () => {
           </Grid>
         </Grid>
       </Container>
+
     </>
   );
 };

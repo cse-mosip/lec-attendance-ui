@@ -21,7 +21,7 @@ function Router() {
   };
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename={"/frontend-service/lec-attendance-ui"}>
         <Routes>
           <Route
             path="/"
@@ -40,7 +40,7 @@ function Router() {
             }
           />
           <Route
-            path="/attendence-sheet"
+            path="/attendance-sheet"
             element={
               <RequireAuth allowedRoles={[ROLES.Admin, ROLES.Lecturer]}>
                 <AttendenceSheet />

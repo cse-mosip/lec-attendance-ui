@@ -16,6 +16,10 @@ import {
   InputLabel,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import {styled} from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../services/AdminServices";
+import Swal from "sweetalert2";
 
 const Register = () => {
   // State variables for form fields
@@ -29,6 +33,29 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
 
+  const navigate = useNavigate();
+
+  const successToast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    iconColor: "green",
+    showConfirmButton: false,
+    timerProgressBar: true,
+    background: "#89e0b3",
+    timer: 5000,
+  });
+
+  const errorToast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    iconColor: "red",
+    showConfirmButton: false,
+    timerProgressBar: true,
+    background: "#efafaf",
+    timer: 5000,
+  });
+
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     // Check if passwords match when the user types
@@ -41,22 +68,54 @@ const Register = () => {
     setPasswordMatch(e.target.value === password);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      // Passwords match, proceed with form submission or other logic
-      console.log("Passwords match:", password);
-    } else {
-      // Passwords don't match, display an error or provide feedback
-      console.log("Passwords do not match");
+
+    try {
+        if (password === confirmPassword) {
+            const response = await register({
+              name: firstname + lastname,
+              email: email,
+              password: password,
+              mosipId: username,
+              userType: userType
+            })
+            successToast.fire({
+              icon: "success",
+              title: "Success",
+              text: "Register Successful",
+            });
+            navigate("/login");
+          } else {
+              errorToast.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Password do not match",
+                });
+          }
+    } catch(error) {
+        errorToast.fire({
+            icon: "error",
+            title: "Error",
+            text: "Register Unsuccessful",
+          });
     }
+    
   };
+
+  
+
+  const Logo = styled('img')({
+    height: '50px',
+    marginRight: '16px',
+  });
 
   return (
     <>
       {/* AppBar for the application name */}
       <AppBar position="static" sx={{ backgroundColor: "white" }}>
         <Toolbar>
+          <Logo src={`/frontend-service/lec-attendance-ui/images/logo.png`} alt="logo" />
           <Typography
             variant="h5"
             component="div"
@@ -67,7 +126,7 @@ const Register = () => {
               fontWeight: "bold",
             }}
           >
-            MOSIP
+            University of Moratuwa
           </Typography>
         </Toolbar>
       </AppBar>
@@ -81,6 +140,14 @@ const Register = () => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#F0F4FB",
+          top: "60px",
+          left: 0,
+          width: "100%",
+          backgroundImage: `url(/frontend-service/lec-attendance-ui/images/uom3.jpg)`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          zIndex: -1,
         }}
       >
         <Grid container>
@@ -95,11 +162,11 @@ const Register = () => {
             }}
           >
             <Container style={{ width: "80%", padding: "20px" }}>
-              <Typography variant="h2" align="center">
+              <Typography variant="h2" align="center" sx={{ color: "#FFFFFF" , fontWeight: "bold"}}>
                 Student Attendance Management System
               </Typography>
               <br />
-              <Typography variant="span" align="left" sx={{ color: "#757F8E" }}>
+              <Typography variant="span" align="left" sx={{ color: "rgba(255,255,255,0.8)" }}>
                 Welcome to our Student Attendance Management System, a
                 lecturer-focused platform for efficient attendance tracking.
                 Built on the robust MOSIP platform, our system uses biometric
@@ -156,12 +223,12 @@ const Register = () => {
                     }}
                   >
                     <FormControlLabel
-                      value="admin"
+                      value="1"
                       control={<Radio />}
                       label="Admin"
                     />
                     <FormControlLabel
-                      value="lecturer"
+                      value="2"
                       control={<Radio />}
                       label="Lecturer"
                     />

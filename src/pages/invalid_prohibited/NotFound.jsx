@@ -5,7 +5,7 @@ function NotFound() {
   return (
     <div className="not-found-container">
       <img
-        src={process.env.PUBLIC_URL + "images/404_error_img.png"}
+        src={"/frontend-service/lec-attendance-ui/images/404_error_img.png"}
         alt="Page Not Found"
         className="not-found-image"
       />
