@@ -41,7 +41,6 @@ const Login = () => {
         password: password,
         fingerprint: "data",
       });
-      console.log(response);
 
       const data = response.data;
       sessionStorage.setItem("AccessToken", data.access_token);
