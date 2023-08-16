@@ -20,6 +20,29 @@ import {
 
 import SideNav from "../../components/navbar/SideNav";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Token from "../../services/Token";
+import { getAllLectures } from "../../services/LecturerServices";
+import { getAllLecturers } from "../../services/AdminServices";
+
+var user = Token.getAuth();
+
+const response = await getAllLecturers();
+const allLecturers = response.data.data;
+
+const currentUser = allLecturers.filter(lecturer => lecturer.id === parseInt(user.sub))[0];
+
+const responseLectures = await getAllLectures()
+const conductingLectures = responseLectures.data.data;
+
+const _conductingLecs = []
+
+conductingLectures.forEach(lecture => {
+  if(!_conductingLecs.includes(lecture.course.moduleName)){
+    _conductingLecs.push({id : lecture.course.id, name: lecture.course.moduleName, code: lecture.course.moduleCode});
+  }
+});
+
+console.log("User : ", _conductingLecs);
 
 const Profile = () => {
   const [passwords, setPasswords] = useState({
@@ -30,15 +53,10 @@ const Profile = () => {
   const [isPasswordChanged, setIsPasswordChanged] = useState(null);
 
   const lecturer = {
-    name: "Lecture User 1",
-    email: "lecture1@mosip.com",
-    designation: "Senior lecturer",
-    modules: [
-      { id: "1", name: "Object oriented programming", code: "cs1033" },
-      { id: "2", name: "Object Oriented Software Development", code: "cs1024" },
-      { id: "3", name: "Deep learning", code: "cs1024" },
-      // Add more modules as needed
-    ],
+    name: currentUser.name,
+    email: currentUser.email,
+    designation: user.designation,
+    modules: _conductingLecs,
   };
 
   const handleChangePassword = () => {
@@ -64,11 +82,11 @@ const Profile = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex"}}>
       <SideNav />
       <Container
         maxWidth="sm"
-        sx={{ marginLeft: "auto", marginRight: "auto", mt: 12, mb: 2 , boxShadow:"3"}}
+        sx={{ marginLeft: "auto", marginRight: "auto", mt: 12, mb: 2 , boxShadow:"3", backgroundColor: "rgba(0, 0, 0, 0.33)"}}
       >
         <Box mt={2}>
           <Avatar sx={{ width: 100, height: 100, margin: "0 auto" }} />

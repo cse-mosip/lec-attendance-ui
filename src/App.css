@@ -4,6 +4,8 @@
 
 body {
   background-image: url("https://img.freepik.com/free-vector/business-presentation-banner-with-blue-geometric-shape_1017-32330.jpg?w=2000");
+  background-size:150%;
+  background-repeat: no-repeat;
   /* background-size: cover; */
 }
 
