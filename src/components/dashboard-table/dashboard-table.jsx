@@ -108,8 +108,8 @@ export default function CustomPaginationActionsTable() {
     const rows = [];
     
     if (data.length > 0) {
-        data.forEach((student)=>{
-            if (student.is_present) {
+                data.forEach((student)=>{
+            if (student.present) {
                 rows.push(createData(student.student_name, student.index_no, student?.arrival_time))
             }
         })
